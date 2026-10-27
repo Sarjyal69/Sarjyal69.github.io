@@ -130,6 +130,9 @@ canvas.aiming { cursor: grabbing; }
     boss: { title: "RUSH HOUR CLEARED", body: "<p>The frozen till is down. On a real night, the tills stopped working at McDonald's in the middle of a busy service.</p><p>" + T("To confirm: what you tried first, who you called, how long it took, what changed after") + "</p>" }
   };
   var SHORT = { since: "2022", crew: "CREW", training: "TRAIN", degree: "DEGREE", py: "PRO YR", courses: "CERTS", dgk: "DGK", leads: "WEBSITE LEADS", data: "DATA", checks: "CHECKS", now: "BUILDING NOW", boss: "", f2: "FLOOR 2", f3: "FLOOR 3", f4: "FLOOR 4", f5: "FLOOR 5", roof: "ROOF" };
+  // Which floor each story block lives on (floor 1 is the ground)
+  var FLOOR = { since: 1, crew: 1, training: 1, degree: 2, py: 2, courses: 2, dgk: 3, leads: 3, data: 4, checks: 4, now: 5, boss: "R" };
+  function floorName(k) { return FLOOR[k] === "R" ? "ROOF" : "FLOOR " + FLOOR[k]; }
   var ORDER = ["since", "crew", "training", "degree", "py", "courses", "dgk", "leads", "data", "checks", "now", "boss"];
 
   /* ---------- Canvas ---------- */
@@ -229,13 +232,13 @@ canvas.aiming { cursor: grabbing; }
   }
   function closeCard() { if (ov.hidden) return; ov.hidden = true; cv.focus({ preventScroll: true }); }
   ov.addEventListener("click", function (e) { if (e.target === ov) closeCard(); });
-  function factCard(key) { var f = FACTS[key]; openCard(f.title, f.body + '<div class="row"><button class="btn primary" type="button" data-close>KEEP PLAYING</button></div>'); }
+  function factCard(key) { var f = FACTS[key]; openCard(floorName(key) + " · " + f.title, f.body + '<div class="row"><button class="btn primary" type="button" data-close>KEEP PLAYING</button></div>'); }
   function quickHTML() {
     return "<p>Shuvang Arjyal · IT support · Darwin, NT · Full work rights · Available now</p><p>I spent four years running fast-food shifts, where things break at the busiest moment and someone has to sort it out. I'm now an IT graduate looking for a support role.</p>" +
       '<p class="mail" id="mail-addr">' + EMAIL + "</p><p>" + T("To confirm: email") + "</p>" +
       '<div class="row"><button class="btn primary" type="button" data-copy>COPY EMAIL</button><a class="btn" href="mailto:' + EMAIL + '">OPEN MAIL</a></div>' +
       "<p style=\"margin-top:10px\">LinkedIn " + T("link") + " · CV " + T("file") + "</p>" +
-      ORDER.map(function (k) { return "<h3>" + FACTS[k].title + "</h3>" + FACTS[k].body; }).join("") +
+      ORDER.map(function (k) { return "<h3>" + floorName(k) + " · " + FACTS[k].title + "</h3>" + FACTS[k].body; }).join("") +
       '<div class="row"><button class="btn primary" type="button" data-close>CLOSE</button></div>';
   }
   function openQuick() { openCard("QUICK VIEW", quickHTML(), "quick"); }
@@ -341,7 +344,7 @@ canvas.aiming { cursor: grabbing; }
     var pos = p.body.position;
     for (var i = 0; i < 14; i++) particles.push({ x: pos.x, y: pos.y, vx: (Math.random() - 0.5) * 8, vy: -Math.random() * 8, t: 0, life: 0.8, c: i % 2 ? C.coin : C.white, r: 3 });
     floater(pos.x, pos.y - 30, "+ " + FACTS[p.key].title, "#fff6e3");
-    if (!quiet) toast(FACTS[p.key].title, "Click the piece to read it");
+    if (!quiet) toast(FACTS[p.key].title, floorName(p.key) + " · click the piece to read it");
     beep(988, 1319, 0.15);
     if (p.kind === "boss") { floater(pos.x, pos.y - 70, "RUSH HOUR CLEARED!", C.coin); beep(523, 1568, 0.4); }
     if (revealed === ORDER.length && !cleared) { cleared = true; setTimeout(levelClear, reduce ? 300 : 1400); }
@@ -480,6 +483,13 @@ canvas.aiming { cursor: grabbing; }
     // label
     ctx.fillStyle = p.kind === "tray" ? C.ink : (p.kind === "tickets" ? C.ink : C.white);
     var label = SHORT[p.key];
+    if (!p.slab) { // floor badge in the top-left corner
+      var tag = FLOOR[p.key] === "R" ? "ROOF" : "F" + FLOOR[p.key], tw = tag.length * 7 + 8;
+      rr(x + 4, y + 4, tw, 15, 4); ctx.fillStyle = C.ink; ctx.fill();
+      ctx.font = "11px 'Lilita One', 'Arial Black', sans-serif"; ctx.fillStyle = C.coin; ctx.textAlign = "center";
+      ctx.fillText(tag, x + 4 + tw / 2, y + 15.5); ctx.textAlign = "left";
+    }
+    ctx.fillStyle = C.ink; // block labels are dark on every block
     if (!label) { ctx.restore(); return; }
     var fs = p.kind === "tray" ? 13 : 13;
     ctx.font = fs + "px 'Lilita One', 'Arial Black', sans-serif"; ctx.textAlign = "center";
