@@ -188,7 +188,7 @@ canvas.aiming { cursor: grabbing; }
   }
   function newByte() {
     if (byte) M.World.remove(world, byte);
-    byte = M.Bodies.circle(ANCHOR.x, ANCHOR.y, BYTE_R, { density: 0.006, restitution: 0.35, friction: 0.5, frictionAir: 0, label: "byte" });
+    byte = M.Bodies.circle(ANCHOR.x, ANCHOR.y, BYTE_R, { density: 0.006, restitution: 0.35, friction: 0.5, frictionAir: 0, label: "byte", sleepThreshold: Infinity });
     M.Body.setStatic(byte, true);
     M.World.add(world, byte);
     aim = { x: ANCHOR.x, y: ANCHOR.y, kbAngle: -0.62, kbPower: 0.8 };
@@ -303,6 +303,7 @@ canvas.aiming { cursor: grabbing; }
     var vx = (ANCHOR.x - aim.x) * POWER, vy = (ANCHOR.y - aim.y) * POWER;
     if (Math.hypot(vx, vy) < 2) { M.Body.setPosition(byte, ANCHOR); aim.x = ANCHOR.x; aim.y = ANCHOR.y; return; }
     M.Body.setStatic(byte, false);
+    M.Sleeping.set(byte, false); // a sleeping body ignores the launch velocity
     M.Body.setPosition(byte, { x: aim.x, y: aim.y });
     M.Body.setVelocity(byte, { x: vx, y: vy });
     M.Body.setAngularVelocity(byte, 0.12);
