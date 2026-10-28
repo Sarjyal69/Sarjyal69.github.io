@@ -1,11 +1,8 @@
-# Byte's Shift: Shuvang Arjyal's portfolio
+# Shuvang Arjyal: portfolio
 
-A playable portfolio. Byte the frill-neck lizard walks from four years of restaurant shifts in Darwin to an IT support career.
+A calm, text-editor style portfolio in plain English. Tabs along the top (About, Rush hour, DGK, Skills, Contact), text that types itself out, and Byte the line-drawn frill-neck lizard typing along at a little keyboard.
 
-- `index.html`: **Byte's Shift**, a retro side-scroller. Hit the ? blocks to read the story, beat the Rush Hour boss, and reach the flag for contact details. **Quick view** has everything as plain text.
-- `slingshot/index.html`: **Byte's Rush Hour**, a slingshot prototype. Launch Byte at a tower of tills and tickets to reveal the same story.
-
-Each page is a single HTML file with no build step. The slingshot page loads Matter.js from cdnjs.
+Everything is in `index.html`, with no build step.
 
 ## Run locally
 
@@ -20,4 +17,4 @@ Connect this repository in Netlify. Leave the build command empty and set the pu
 
 ## Still to fill in
 
-The dashed "To confirm" boxes mark details that still need real content: email, LinkedIn, CV, the real rush-hour night, website-leads numbers and the AI assistant details.
+Dashed boxes mark details that still need real content: email, LinkedIn, CV, the rush-hour night, website-leads numbers and one more working habit.
