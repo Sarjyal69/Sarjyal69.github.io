@@ -1,6 +1,6 @@
 # Shuvang Arjyal: portfolio
 
-A calm, text-editor style portfolio in plain English. Tabs along the top (About, Hard shifts, DGK, Skills, Contact), text that types itself out, and Byte the line-drawn frill-neck lizard typing along at a little keyboard.
+A calm, text-editor style portfolio in plain English. Tabs along the top (About, Hard shifts, DGK, Skills, Contact), text that types itself out, an eye that follows you, and a QWERTY keyboard that lights up each key as the page types it. The Skills tab shows the tools I have used, with logos from Simple Icons.
 
 Everything is in `index.html`, with no build step.
 
