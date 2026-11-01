@@ -19,7 +19,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 400 18px/1.
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 a { color: var(--accent); text-underline-offset: 3px; }
 p { margin: 0; text-wrap: pretty; }
-h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+h1, h2, h3 { margin: 0; color: var(--accent); font-family: var(--display); font-weight: 700; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
 
 .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
 
@@ -100,8 +100,11 @@ section { border-top: 1px solid var(--line); padding: 64px 0; }
 .credits { margin-top: 26px; font-size: 14px; color: var(--soft); max-width: 70ch; }
 
 .edu + .edu { margin-top: 32px; }
-.edu { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 18px; align-items: start; }
+.edu { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 18px; align-items: start; }
 .edu .marks img { display: block; width: 40px; height: 40px; border-radius: 6px; object-fit: contain; }
+.edu .marks img.wide { width: 104px; height: 48px; }
+.edu .marks img:not(.wide) { margin-inline: auto; }
+@media (max-width: 520px) { .edu { grid-template-columns: 1fr; gap: 10px; } .edu .marks img:not(.wide) { margin-inline: 0; } }
 .inline-logo { height: 22px; width: auto; vertical-align: -5px; margin: 0 2px; }
 .paths { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; }
 .paths li { display: flex; align-items: center; gap: 10px; }
