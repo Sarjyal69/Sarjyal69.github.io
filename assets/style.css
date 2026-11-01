@@ -256,11 +256,15 @@ a, button { touch-action: manipulation; }
 
 /* Site helper: chat bubble in the corner of every page */
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.chat-fab { position: fixed; right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 20; width: 58px; height: 58px; border: 0; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; cursor: pointer; box-shadow: 0 10px 28px -8px rgba(17, 17, 17, 0.45); transition: transform 160ms var(--ease-out); animation: fab-in 320ms var(--ease-out) 1.5s both; }
-.chat-fab svg { width: 28px; height: 28px; }
+.chat-fab { position: fixed; right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 20; width: 58px; height: 58px; border: 2.5px solid var(--accent); border-radius: 50%; background: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: 0 10px 28px -8px rgba(17, 17, 17, 0.45); transition: transform 160ms var(--ease-out), background-color 160ms; animation: fab-in 320ms var(--ease-out) 1.5s both; }
+.chat-fab svg { width: 40px; height: 40px; }
+.chat-fab .iris { transition: transform 90ms linear; }
+.chat-fab .iris-ring { fill: var(--accent); }
+.chat-fab .lid { transform-box: fill-box; transform-origin: center; transition: transform 70ms ease-in; }
+.chat-fab .lid.blink { transform: scaleY(0.1); }
 .chat-fab:hover { transform: scale(1.06); }
 .chat-fab:active { transform: scale(0.95); }
-.chat-fab.on { background: var(--ink); }
+.chat-fab.on { background: var(--ink); border-color: var(--ink); }
 @keyframes fab-in { from { opacity: 0; transform: scale(0.6) translateY(10px); } }
 .chat { position: fixed; right: max(18px, env(safe-area-inset-right)); bottom: calc(max(18px, env(safe-area-inset-bottom)) + 72px); z-index: 20; width: min(370px, calc(100vw - 24px)); height: min(540px, calc(100dvh - 120px)); display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 24px 60px -18px rgba(17, 17, 17, 0.35); overflow: hidden; transform-origin: bottom right; animation: chat-in 220ms var(--ease-out); }
 .chat[hidden] { display: none; }
@@ -286,3 +290,12 @@ a, button { touch-action: manipulation; }
 .chat-form input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .chat-form button { flex: none; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 18px; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .chat-fab, .chat { animation: none; transition: none; } }
+
+/* Greeting bubble beside the eye */
+.chat-hello { position: fixed; z-index: 20; right: calc(max(18px, env(safe-area-inset-right)) + 70px); bottom: calc(max(18px, env(safe-area-inset-bottom)) + 8px); max-width: min(260px, calc(100vw - 110px)); display: flex; align-items: flex-start; gap: 2px; padding: 10px 6px 10px 14px; border-radius: 14px 14px 4px 14px; background: var(--ink); color: #fff; box-shadow: 0 12px 30px -12px rgba(17, 17, 17, 0.5); animation: hello-in 300ms var(--ease-out); }
+.chat-hello .hello-open { font: inherit; font-size: 15px; line-height: 1.4; text-align: left; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.chat-hello .hello-x { flex: none; width: 26px; height: 26px; margin-top: -4px; border: 0; border-radius: 50%; background: none; color: #c9c9c9; font-size: 18px; line-height: 1; cursor: pointer; }
+.chat-hello .hello-x:hover { color: #fff; background: rgba(255, 255, 255, 0.12); }
+@keyframes hello-in { from { opacity: 0; transform: translateX(10px) scale(0.96); } }
+@media (prefers-reduced-motion: reduce) { .chat-hello { animation: none; } .chat-fab .iris, .chat-fab .lid { transition: none; } }
+

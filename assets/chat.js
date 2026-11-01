@@ -41,12 +41,19 @@
   // shortcut: history lives in sessionStorage, so it lasts for the visit only and is lost where storage is blocked
   var history = [];
   try { history = JSON.parse(sessionStorage.getItem("sa-chat") || "[]"); } catch (e) {}
+  var chatted = history.length > 0; // checked before the welcome message is added
   function save() { try { sessionStorage.setItem("sa-chat", JSON.stringify(history.slice(-30))); } catch (e) {} }
 
   var ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4h0A2.5 2.5 0 0 1 3 13.5v-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M7.5 9.5c1.3-1.8 2.8-2.7 4.5-2.7s3.2.9 4.5 2.7c-1.3 1.8-2.8 2.7-4.5 2.7s-3.2-.9-4.5-2.7z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="1.4" fill="currentColor"/></svg>';
 
+  var EYE_SHAPE = "M3 20C8.5 11 14 7.5 20 7.5S31.5 11 37 20C31.5 29 26 32.5 20 32.5S8.5 29 3 20z";
+  var EYE = '<svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><clipPath id="eye-clip"><path d="' + EYE_SHAPE + '"/></clipPath></defs>' +
+    '<g class="lid"><path d="' + EYE_SHAPE + '" fill="#fff"/><g clip-path="url(#eye-clip)"><g class="iris"><circle cx="20" cy="20" r="8.5" class="iris-ring"/><circle cx="20" cy="20" r="4" fill="#111"/><circle cx="22.4" cy="17.6" r="1.4" fill="#fff"/></g></g>' +
+    '<path d="' + EYE_SHAPE + '" fill="none" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/></g></svg>';
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   var fab = document.createElement("button");
-  fab.type = "button"; fab.className = "chat-fab"; fab.innerHTML = ICON;
+  fab.type = "button"; fab.className = "chat-fab"; fab.innerHTML = EYE;
   fab.setAttribute("aria-label", "Open site helper"); fab.setAttribute("aria-expanded", "false"); fab.setAttribute("aria-controls", "chat-panel");
 
   var panel = document.createElement("div");
@@ -88,12 +95,55 @@
   if (history.length) history.forEach(function (m) { add(m.who, m.html, false); });
   else add("bot", GREETING);
 
+  /* ---------- The eye follows the cursor or finger, and blinks now and then ---------- */
+  var iris = fab.querySelector(".iris"), lid = fab.querySelector(".lid"), target = null, queued = false;
+  function look() {
+    queued = false;
+    var r = fab.getBoundingClientRect(), dx = target.x - (r.left + r.width / 2), dy = target.y - (r.top + r.height / 2);
+    var d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 220);
+    iris.setAttribute("transform", "translate(" + (dx / d * 6 * k).toFixed(2) + " " + (dy / d * 3.5 * k).toFixed(2) + ")");
+  }
+  function follow(e) {
+    var p = e.touches ? e.touches[0] : e; if (!p) return;
+    target = { x: p.clientX, y: p.clientY };
+    if (!queued) { queued = true; requestAnimationFrame(look); }
+  }
+  if (!reduce) {
+    window.addEventListener("pointermove", follow, { passive: true });
+    window.addEventListener("pointerdown", follow, { passive: true });
+    window.addEventListener("touchstart", follow, { passive: true });
+    window.addEventListener("touchmove", follow, { passive: true });
+    (function blink() {
+      setTimeout(function () { lid.classList.add("blink"); setTimeout(function () { lid.classList.remove("blink"); blink(); }, 150); }, 3000 + Math.random() * 3000);
+    })();
+  }
+
+  /* ---------- Greeting: tells first-time visitors what the eye is for, once per visit ---------- */
+  var hello = null, seenHello = false;
+  try { seenHello = sessionStorage.getItem("sa-hello") === "1"; } catch (e) {}
+  function hideHello() {
+    if (!hello) return;
+    hello.remove(); hello = null;
+    try { sessionStorage.setItem("sa-hello", "1"); } catch (e) {}
+  }
+  if (!seenHello && !chatted) setTimeout(function () {
+    if (!panel.hidden) return;
+    hello = document.createElement("div");
+    hello.className = "chat-hello";
+    hello.innerHTML = '<button type="button" class="hello-open">Hi! I can help you navigate this website.</button><button type="button" class="hello-x" aria-label="Dismiss">&times;</button>';
+    hello.querySelector(".hello-open").addEventListener("click", function () { hideHello(); open(); });
+    hello.querySelector(".hello-x").addEventListener("click", hideHello);
+    document.body.appendChild(hello);
+    setTimeout(hideHello, 8000);
+  }, 2000);
+
   function open() {
-    panel.hidden = false; fab.setAttribute("aria-expanded", "true"); fab.classList.add("on");
+    hideHello();
+    panel.hidden = false; fab.setAttribute("aria-expanded", "true"); fab.setAttribute("aria-label", "Close site helper"); fab.classList.add("on");
     log.scrollTop = log.scrollHeight; input.focus();
   }
   function close() {
-    panel.hidden = true; fab.setAttribute("aria-expanded", "false"); fab.classList.remove("on"); fab.focus();
+    panel.hidden = true; fab.setAttribute("aria-expanded", "false"); fab.setAttribute("aria-label", "Open site helper"); fab.classList.remove("on"); fab.focus();
   }
   fab.addEventListener("click", function () { if (panel.hidden) open(); else close(); });
   panel.querySelector(".chat-close").addEventListener("click", close);
