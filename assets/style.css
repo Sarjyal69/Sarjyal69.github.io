@@ -1,5 +1,5 @@
-/* Hallmark floor, custom direction. Signature: the round portrait, gathered from coloured dots on load.
-   Critique: one moment (the portrait arriving), everything else still; one accent for links. */
+/* Hallmark floor, custom direction. Signature: the name set large across the top.
+   Critique: one accent for links and actions; motion only where it explains something. */
 :root {
   --paper: #f3f4f1;
   --ink: #111418;
@@ -33,11 +33,11 @@ h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; overflow-
 .nav nav a:hover { color: var(--ink); }
 @media (max-width: 680px) { .nav .name { display: none; } }
 
-/* Hero: name, one sentence, actions, and the portrait */
-.hero { display: grid; gap: 40px; align-items: center; padding-block: 56px 64px; }
-@media (min-width: 860px) { .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 64px; padding-block: 72px 80px; } }
-.hero h1 { font-size: clamp(52px, 8.5vw, 96px); line-height: 0.95; font-weight: 800; letter-spacing: -0.035em; font-variation-settings: "wdth" 88; }
-.hero .lede { font-size: clamp(20px, 2.2vw, 24px); line-height: 1.45; color: var(--soft); margin-top: 22px; max-width: 30ch; }
+/* Hero: name, one sentence, actions */
+.hero { padding-block: 64px 72px; }
+@media (min-width: 860px) { .hero { padding-block: 104px 112px; } }
+.hero h1 { font-size: clamp(56px, 13vw, 168px); line-height: 0.95; font-weight: 800; letter-spacing: -0.035em; font-variation-settings: "wdth" 88; }
+.hero .lede { font-size: clamp(21px, 2.6vw, 30px); line-height: 1.4; color: var(--soft); margin-top: 26px; max-width: 34ch; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 .btn { font: inherit; font-size: 17px; font-weight: 700; padding: 11px 20px; border-radius: 6px; border: 1.5px solid var(--accent); background: var(--accent); color: var(--on-accent); cursor: pointer; text-decoration: none; overflow: hidden; transition: background-color 0.15s, color 0.15s, transform 160ms var(--ease-out); }
 .btn:active { transform: scale(0.97); }
@@ -46,22 +46,8 @@ h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; overflow-
 .btn.quiet:hover { background: var(--ink); color: var(--paper); }
 .facts { margin-top: 26px; color: var(--soft); font-size: 16px; }
 
-.portrait { position: relative; width: 100%; max-width: 440px; aspect-ratio: 1; justify-self: center; isolation: isolate;
-  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 400ms var(--ease-out); }
-.portrait.tilt { transition-duration: 120ms; }
-/* light that follows the mouse across the photo */
-.portrait::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 300ms;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.35), transparent 45%); }
-.portrait.tilt::after { opacity: 1; }
-/* soft glow behind the round portrait: a few slow turns on arrival, then it rests */
-.portrait::before { content: ""; position: absolute; inset: -6%; z-index: -1; border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--accent), #00c2ff, #8a5cff, #ff5ca8, var(--accent));
-  filter: blur(34px); opacity: 0.55; animation: glow-spin 14s linear 3; }
-@keyframes glow-spin { to { transform: rotate(1turn); } }
-.portrait canvas, .portrait img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px #fff, 0 18px 50px -20px rgba(17, 20, 24, 0.45); }
-.portrait img { object-fit: cover; }
-.portrait canvas { transition: opacity 500ms var(--ease-out); }
-.portrait.shown canvas { opacity: 0; }
+/* Small round photo beside the About text */
+.avatar { float: right; width: 96px; height: 96px; margin: 4px 0 12px 20px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 3px #fff, 0 0 0 4px var(--line); }
 
 /* Sections */
 section { border-top: 1px solid var(--line); padding: 64px 0; }
@@ -120,8 +106,7 @@ footer { border-top: 1px solid var(--line); padding: 36px 0 44px; color: var(--s
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn, .portrait, .portrait canvas { transition: none; }
-  .portrait::before { animation: none; }
+  .btn { transition: none; }
 }
 
 .nav nav a[aria-current="page"] { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }

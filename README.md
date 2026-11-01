@@ -1,6 +1,6 @@
 # Shuvang Arjyal: portfolio
 
-A plain, readable portfolio across six pages (home, experience, how I work, skills, education, contact), with a shared footer where a small eye and keyboard react to typing. The one moment of motion is a round portrait that gathers from coloured dots on load, then tilts gently toward the mouse with a soft glow behind it. Below it: about, experience, how I work (four stories in situation, task, action, result form), skills with app logos, education and contact,. Cleaned up against the kill-ai-slop, taste-skill and Hallmark checklists.
+A plain, readable portfolio across six pages (home, experience, how I work, skills, education, contact), with a shared footer where a small eye and keyboard react to typing. The home page opens with the name set large across the page, with a small round photo beside the About text. Below it: about, experience, how I work (four stories in situation, task, action, result form), skills with app logos, education and contact,. Cleaned up against the kill-ai-slop, taste-skill and Hallmark checklists.
 
 Each page is a plain HTML file; shared styles and scripts live in `assets/`. No build step.
 
