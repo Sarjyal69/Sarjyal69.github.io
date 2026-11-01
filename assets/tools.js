@@ -11,4 +11,5 @@
   }).join("") +
     '<p class="credits">Logos and brand names belong to their owners, including Microsoft, Google, Anthropic, OpenAI, Canva, Cisco, Atlassian, Slack and Zoom. They\'re shown only to list the tools I\'ve used and don\'t imply endorsement. Icons come from Iconify\'s Logos set by Gil Barbara (CC0), Devicon (MIT) and Simple Icons (CC0). Apps without a published logo are listed by name.</p>';
 
+  if (window.rippleOnce) window.rippleOnce(document.getElementById("apps"), "sa-ripple-skills");
 })();

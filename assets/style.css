@@ -8,6 +8,7 @@
   --accent: #2f5d50;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --digits: "JetBrains Mono", "DejaVu Sans Mono", Consolas, monospace;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -37,7 +38,8 @@ h1, h2, h3 { margin: 0; font-weight: 700; overflow-wrap: break-word; min-width: 
 .hero h1 { font-size: clamp(52px, 8.5vw, 96px); line-height: 0.95; letter-spacing: -0.03em; }
 .hero .lede { font-size: clamp(20px, 2.2vw, 24px); line-height: 1.45; color: var(--soft); margin-top: 22px; max-width: 30ch; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
-.btn { font: inherit; font-size: 17px; font-weight: 700; padding: 11px 20px; border-radius: 6px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; text-decoration: none; transition: background-color 0.15s, color 0.15s; }
+.btn { font: inherit; font-size: 17px; font-weight: 700; padding: 11px 20px; border-radius: 6px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper); cursor: pointer; text-decoration: none; overflow: hidden; transition: background-color 0.15s, color 0.15s, transform 160ms var(--ease-out); }
+.btn:active { transform: scale(0.97); }
 .btn:hover { background: var(--paper); color: var(--ink); }
 .btn.quiet { background: transparent; color: var(--ink); }
 .btn.quiet:hover { background: var(--ink); color: var(--paper); }
@@ -118,3 +120,27 @@ footer .wrap { display: grid; gap: 24px; align-items: end; }
 .desk p { font-size: 14px; color: var(--soft); margin-top: 6px; }
 .foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 10px; }
 .foot-links a { color: var(--soft); }
+
+/* Motion, kept to moments that explain something (Emil Kowalski's find-animation-opportunities pass) */
+
+/* 1. Page to page: the new page cross-fades in and the current-page underline glides to its new place */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 250ms; animation-timing-function: var(--ease-out); }
+.nav nav a[aria-current="page"] { view-transition-name: current-page; }
+::view-transition-group(current-page) { animation-duration: 300ms; animation-timing-function: var(--ease-out); }
+
+/* 3. "Copied" slides into the button, then the label slides back */
+.lbl { display: inline-block; }
+.lbl.in { animation: label-in 200ms var(--ease-out); }
+@keyframes label-in { from { opacity: 0; transform: translateY(70%); } }
+
+/* 4 and 5. Logos and the home page list ripple in once per visit */
+.ripple > li, .ripple .alist li { animation: ripple-in 280ms var(--ease-out) both; animation-delay: min(calc(var(--i, 0) * var(--step, 25ms)), 700ms); }
+.next.ripple { --step: 60ms; }
+@keyframes ripple-in { from { opacity: 0; transform: translateY(6px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  .ripple > li, .ripple .alist li, .lbl.in { animation: none; }
+  .btn:active { transform: none; }
+}

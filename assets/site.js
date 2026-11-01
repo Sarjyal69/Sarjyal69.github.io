@@ -6,7 +6,12 @@
   /* ---------- Copy email ---------- */
   var copy = document.getElementById("copy-btn");
   if (copy) copy.addEventListener("click", function () {
-    function done() { copy.textContent = "Copied"; setTimeout(function () { copy.textContent = "Copy email"; }, 1500); }
+    function label(text) { copy.innerHTML = '<span class="lbl in">' + text + "</span>"; }
+    function done() {
+      copy.style.minWidth = copy.offsetWidth + "px"; // keep the button the same width while the label changes
+      label("Copied");
+      setTimeout(function () { label("Copy email"); }, 1500);
+    }
     function sel() { var r = document.createRange(); r.selectNodeContents(document.getElementById("mail-addr")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
     try { navigator.clipboard.writeText("sarjyal69@protonmail.com").then(done, sel); } catch (e) { sel(); }
   });
@@ -60,4 +65,16 @@
   function wake() { if (reduce) { drawDesk(0); return; } if (!running) { running = true; last = performance.now(); requestAnimationFrame(deskFrame); } }
   drawDesk(0);
   if (!reduce) setInterval(wake, 3000);
+
+  /* ---------- Lists that ripple in, once per visit ---------- */
+  function rippleOnce(el, key) {
+    if (!el || reduce) return;
+    var seen = false;
+    try { seen = sessionStorage.getItem(key) === "1"; sessionStorage.setItem(key, "1"); } catch (e) {}
+    if (seen) return;
+    [].forEach.call(el.querySelectorAll("li"), function (li, n) { li.style.setProperty("--i", n); });
+    el.classList.add("ripple");
+  }
+  rippleOnce(document.querySelector(".next"), "sa-ripple-home");
+  window.rippleOnce = rippleOnce;
 })();
