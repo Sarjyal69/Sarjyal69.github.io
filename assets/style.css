@@ -65,8 +65,9 @@ h1, h2, h3 { margin: 0; color: var(--head); font-family: var(--display); font-we
 .term-bar span { margin-left: 10px; }
 .term-shot { position: relative; aspect-ratio: 1; }
 .term-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.term-shot .real { opacity: 0; transition: opacity 300ms var(--ease-out); }
-.term.real-on .real { opacity: 1; }
+/* 3. the real photo wipes down like a screen refresh, and back up */
+.term-shot .real { clip-path: inset(0 0 100% 0); transition: clip-path 350ms var(--ease-out); }
+.term.real-on .real { clip-path: inset(0 0 0 0); }
 .swap { display: block; margin: 12px auto 0; font: inherit; font-size: 15px; color: var(--soft); background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 4px; }
 .swap:hover { color: var(--ink); }
 
@@ -130,7 +131,7 @@ footer { border-top: 1px solid var(--line); padding: 36px 0 44px; color: var(--s
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn, .term-shot .real { transition: none; }
+  .btn, .term-shot .real, .btn .arrow { transition: none; }
 }
 
 .nav nav a[aria-current="page"] { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
@@ -180,3 +181,38 @@ a, button { touch-action: manipulation; }
 .theme-btn { flex: none; display: grid; place-items: center; width: 36px; height: 36px; margin-left: -6px; border: 1px solid var(--line); border-radius: 50%; background: none; color: var(--ink); cursor: pointer; }
 .theme-btn:hover { border-color: var(--ink); }
 .theme-btn svg { width: 18px; height: 18px; }
+
+/* 1. The name types itself, with a terminal cursor that follows the letters */
+.hero h1.typing .ch { opacity: 0; position: relative; }
+.hero h1.typing .ch.on { opacity: 1; }
+.hero h1 .ch.cur::after { content: ""; position: absolute; top: 0.12em; bottom: 0.06em; right: -0.1em; width: 0.07em; background: var(--accent); animation: blink 0.9s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* 2. The portrait boots up: a green scan line sweeps down and reveals it */
+.term.boot .green { animation: boot-reveal 700ms var(--ease-out) 150ms both; }
+.term.boot .term-shot::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #7cff9e; box-shadow: 0 0 14px 3px rgba(124, 255, 158, 0.7); animation: boot-scan 700ms var(--ease-out) 150ms both; }
+@keyframes boot-reveal { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes boot-scan { from { transform: translateY(0); opacity: 1; } 90% { opacity: 1; } to { transform: translateY(var(--h, 400px)); opacity: 0; } }
+.term-shot { container-type: inline-size; }
+.term.boot .term-shot::after { --h: 100cqw; }
+.term-bar .cursor { display: inline-block; width: 7px; height: 13px; margin-left: 4px; vertical-align: -2px; background: currentColor; animation: blink 1s steps(1) 6; }
+
+/* 4. Light/dark: the new colours spread out in a circle from the button */
+html.theme-vt::view-transition-old(root) { animation: none; }
+html.theme-vt::view-transition-new(root) { animation: theme-reveal 420ms var(--ease-out); }
+@keyframes theme-reveal { from { clip-path: circle(0 at var(--tx) var(--ty)); } to { clip-path: circle(var(--tr) at var(--tx) var(--ty)); } }
+
+/* 5. "Get in touch" arrow slides in on hover; the copied email gets a brief highlight */
+.btn .arrow { display: inline-block; margin-left: 0.35em; }
+@media (hover: hover) {
+  .btn .arrow { opacity: 0; transform: translateX(-6px); transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out); }
+  .btn:hover .arrow, .btn:focus-visible .arrow { opacity: 1; transform: none; }
+}
+.contact .email { width: fit-content; }
+.contact .email.flash { animation: copied 900ms var(--ease-out); border-radius: 4px; }
+@keyframes copied { from { background: color-mix(in srgb, var(--accent) 35%, transparent); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .term.boot .green, .term.boot .term-shot::after, .term-bar .cursor, .contact .email.flash { animation: none; }
+  .term.boot .term-shot::after { display: none; }
+}

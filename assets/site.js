@@ -10,6 +10,7 @@
     function done() {
       copy.style.minWidth = copy.offsetWidth + "px"; // keep the button the same width while the label changes
       label("Copied");
+      var addr = document.getElementById("mail-addr"); addr.classList.remove("flash"); void addr.offsetWidth; addr.classList.add("flash");
       setTimeout(function () { label("Copy email"); }, 1500);
     }
     function sel() { var r = document.createRange(); r.selectNodeContents(document.getElementById("mail-addr")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
@@ -91,12 +92,42 @@
     readColours(); drawDesk(0);
   }
   themeBtn.addEventListener("click", function () {
-    html.dataset.theme = isDark() ? "light" : "dark";
-    try { localStorage.setItem("theme", html.dataset.theme); } catch (e) {}
-    showTheme();
+    var flip = function () {
+      html.dataset.theme = isDark() ? "light" : "dark";
+      try { sessionStorage.setItem("theme", html.dataset.theme); } catch (e) {} // this visit only; next visit follows the device again
+      showTheme();
+    };
+    if (!reduce && document.startViewTransition) {
+      var r = themeBtn.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+      html.style.setProperty("--tx", x + "px"); html.style.setProperty("--ty", y + "px");
+      html.style.setProperty("--tr", Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + "px");
+      html.classList.add("theme-vt");
+      var vt = document.startViewTransition(flip);
+      vt.finished.finally(function () { html.classList.remove("theme-vt"); });
+    } else flip();
   });
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", showTheme);
   showTheme();
+
+  /* ---------- Home page arrival: the name types itself and the portrait boots up, once per visit ---------- */
+  function firstTime(key) { var seen = false; try { seen = sessionStorage.getItem(key) === "1"; sessionStorage.setItem(key, "1"); } catch (e) {} return !seen; }
+  var name = document.querySelector(".hero h1"), term = document.getElementById("term");
+  if (name && term && !reduce && firstTime("sa-arrive")) {
+    var text = name.textContent;
+    name.setAttribute("aria-label", text);
+    name.innerHTML = text.split("").map(function (c) { return '<span class="ch" aria-hidden="true">' + c + "</span>"; }).join("");
+    name.classList.add("typing");
+    var chars = name.querySelectorAll(".ch"), n = 0;
+    var typer = setInterval(function () {
+      if (n) chars[n - 1].classList.remove("cur");
+      chars[n].classList.add("on", "cur");
+      if (++n === chars.length) {
+        clearInterval(typer);
+        setTimeout(function () { chars[n - 1].classList.remove("cur"); name.classList.remove("typing"); }, 1100);
+      }
+    }, 55);
+    term.classList.add("boot");
+  }
 
   /* ---------- Lists that ripple in, once per visit ---------- */
   function rippleOnce(el, key) {
