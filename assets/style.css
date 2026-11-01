@@ -306,3 +306,11 @@ a, button { touch-action: manipulation; }
 @keyframes hello-in { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
 @media (prefers-reduced-motion: reduce) { .chat-hello { animation: none; } .chat-fab .iris, .chat-fab .lid { transition: none; } }
 
+/* Short page message from the eye */
+.chat-hello.tip { width: auto; max-width: min(280px, calc(100vw - 24px)); padding: 10px 8px 10px 14px; }
+.chat-hello .tip-text { font: inherit; font-size: 15px; line-height: 1.4; font-weight: 700; color: #fff; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; }
+
+/* Draggable eye */
+.chat-fab { touch-action: none; cursor: grab; }
+.chat-fab.dragging { cursor: grabbing; transform: scale(1.08); box-shadow: 0 16px 36px -8px rgba(17, 17, 17, 0.5); transition: none; }
+

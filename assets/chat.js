@@ -118,12 +118,62 @@
     })();
   }
 
+  /* ---------- Visitors can drag the eye anywhere; the chat and messages open beside it ---------- */
+  var dragged = false, drag = null;
+  function clampTo(x, y) {
+    var s = fab.offsetWidth, m = 8;
+    return { x: Math.max(m, Math.min(innerWidth - s - m, x)), y: Math.max(m, Math.min(innerHeight - s - m, y)) };
+  }
+  function setFab(x, y) {
+    var c = clampTo(x, y);
+    fab.style.left = c.x + "px"; fab.style.top = c.y + "px"; fab.style.right = "auto"; fab.style.bottom = "auto";
+  }
+  // put a popup next to the eye, on whichever side has room
+  function place(el) {
+    if (!fab.style.left) return; // eye still in its default corner, CSS positions everything
+    var s = fab.offsetWidth, l = parseFloat(fab.style.left), t = parseFloat(fab.style.top), r = { left: l, top: t, right: l + s, bottom: t + s, width: s, height: s };
+    var gap = 14, w = el.offsetWidth, h = el.offsetHeight;
+    var x = r.left + r.width / 2 > innerWidth / 2 ? r.right - w : r.left;
+    var y = r.top + r.height / 2 > innerHeight / 2 ? r.top - gap - h : r.bottom + gap;
+    el.style.right = el.style.bottom = "auto";
+    el.style.left = Math.max(12, Math.min(innerWidth - w - 12, x)) + "px";
+    el.style.top = Math.max(12, Math.min(innerHeight - h - 12, y)) + "px";
+  }
+  try { var saved = JSON.parse(sessionStorage.getItem("sa-eye") || "null"); if (saved) setFab(saved.x * innerWidth, saved.y * innerHeight); } catch (e) {}
+  fab.addEventListener("pointerdown", function (e) {
+    var r = fab.getBoundingClientRect();
+    drag = { id: e.pointerId, dx: e.clientX - r.left, dy: e.clientY - r.top, sx: e.clientX, sy: e.clientY };
+  });
+  window.addEventListener("pointermove", function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    if (!dragged && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 6) return;
+    if (!dragged) { dragged = true; fab.setPointerCapture(e.pointerId); fab.classList.add("dragging"); hideCard(); }
+    setFab(e.clientX - drag.dx, e.clientY - drag.dy);
+    if (!panel.hidden) place(panel);
+  });
+  function endDrag() {
+    if (!drag) return;
+    drag = null; fab.classList.remove("dragging");
+    if (dragged) {
+      try { sessionStorage.setItem("sa-eye", JSON.stringify({ x: parseFloat(fab.style.left) / innerWidth, y: parseFloat(fab.style.top) / innerHeight })); } catch (e) {}
+      setTimeout(function () { dragged = false; }, 0); // let the click handler see the drag first
+    }
+  }
+  window.addEventListener("pointerup", endDrag);
+  window.addEventListener("pointercancel", endDrag);
+  window.addEventListener("resize", function () {
+    if (!fab.style.left) return;
+    setFab(parseFloat(fab.style.left), parseFloat(fab.style.top));
+    if (!panel.hidden) place(panel);
+  });
+
   /* ---------- Greeting card: shows what the helper can do before it's opened ---------- */
   var card = null, hideTimer = null, seenHello = false;
   try { seenHello = sessionStorage.getItem("sa-hello") === "1"; } catch (e) {}
   var PICKS = ["experience", "skills", "contact", "available"];
   function showCard() {
     clearTimeout(hideTimer);
+    if (card && card.classList.contains("tip")) { card.remove(); card = null; }
     if (card || !panel.hidden) return;
     card = document.createElement("div");
     card.className = "chat-hello"; card.setAttribute("role", "group"); card.setAttribute("aria-label", "What the site helper can do");
@@ -141,7 +191,7 @@
     card.addEventListener("keydown", function (e) { if (e.key === "Escape") { hideCard(); fab.focus(); } });
     card.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
     card.addEventListener("mouseleave", hideSoon);
-    document.body.appendChild(card);
+    document.body.appendChild(card); place(card);
   }
   function hideCard() {
     clearTimeout(hideTimer);
@@ -150,7 +200,30 @@
     try { sessionStorage.setItem("sa-hello", "1"); } catch (e) {}
   }
   function hideSoon() { clearTimeout(hideTimer); hideTimer = setTimeout(hideCard, 350); }
-  if (!seenHello && !chatted) setTimeout(showCard, 2000);
+  // Every page visit: the eye says a short message about the page it's on
+  var PAGE_TIPS = {
+    "index": "Hi! I can help you navigate this website.",
+    "experience": "This is his work history. Ask me about any job.",
+    "how-i-work": "Four real problems he solved. Want the short version?",
+    "skills": "48 apps and tools are listed here. Ask me what he can do.",
+    "education": "His degree, courses and certificates. Questions? Just ask.",
+    "contact": "Want to get in touch? I can help with that."
+  };
+  var page = (location.pathname.split("/").pop() || "index").replace(".html", "") || "index";
+  function showTip() {
+    if (card || !panel.hidden) return;
+    card = document.createElement("div");
+    card.className = "chat-hello tip"; card.setAttribute("role", "status");
+    card.innerHTML = '<div class="hello-top"><button type="button" class="tip-text"></button><button type="button" class="hello-x" aria-label="Dismiss">&times;</button></div>';
+    card.querySelector(".tip-text").textContent = PAGE_TIPS[page] || PAGE_TIPS.index;
+    card.querySelector(".tip-text").addEventListener("click", function () { open(); });
+    card.querySelector(".hello-x").addEventListener("click", function () { hideCard(); });
+    card.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
+    card.addEventListener("mouseleave", hideSoon);
+    document.body.appendChild(card); place(card);
+    hideTimer = setTimeout(hideCard, 6000);
+  }
+  setTimeout(!seenHello && !chatted ? showCard : showTip, 2000);
   if (window.matchMedia("(hover: hover)").matches) {
     fab.addEventListener("mouseenter", showCard);
     fab.addEventListener("mouseleave", hideSoon);
@@ -159,13 +232,16 @@
 
   function open() {
     hideCard();
-    panel.hidden = false; fab.setAttribute("aria-expanded", "true"); fab.setAttribute("aria-label", "Close site helper"); fab.classList.add("on");
+    panel.hidden = false; place(panel); fab.setAttribute("aria-expanded", "true"); fab.setAttribute("aria-label", "Close site helper"); fab.classList.add("on");
     log.scrollTop = log.scrollHeight; input.focus();
   }
   function close() {
     panel.hidden = true; fab.setAttribute("aria-expanded", "false"); fab.setAttribute("aria-label", "Open site helper"); fab.classList.remove("on"); fab.focus();
   }
-  fab.addEventListener("click", function () { if (panel.hidden) open(); else close(); });
+  fab.addEventListener("click", function (e) {
+    if (dragged) { dragged = false; e.preventDefault(); return; } // a drag is not a click
+    if (panel.hidden) open(); else close();
+  });
   panel.querySelector(".chat-close").addEventListener("click", close);
   panel.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   form.addEventListener("submit", function (e) { e.preventDefault(); ask(input.value); input.value = ""; });
