@@ -5,7 +5,8 @@
   --ink: #14231c;
   --soft: #4f5f56;
   --line: #d3ddd4;
-  --accent: #1f7a4d;
+  --head: #1f7a4d;
+  --accent: #b4441c;
   --on-accent: #ffffff;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --display: "Bricolage Grotesque", "Atkinson Hyperlegible Next", Arial, sans-serif;
@@ -19,7 +20,7 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 400 18px/1.
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 a { color: var(--accent); text-underline-offset: 3px; }
 p { margin: 0; text-wrap: pretty; }
-h1, h2, h3 { margin: 0; color: var(--accent); font-family: var(--display); font-weight: 700; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+h1, h2, h3 { margin: 0; color: var(--head); font-family: var(--display); font-weight: 700; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
 
 .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
 
