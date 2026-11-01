@@ -1,4 +1,4 @@
-/* Hallmark floor, custom direction. Signature: the name set large across the top.
+/* Hallmark floor, custom direction. Signature: the portrait as a green terminal window, with the real photo one click away.
    Critique: one accent for links and actions; motion only where it explains something. */
 :root {
   --paper: #eef2ec;
@@ -34,10 +34,10 @@ h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; overflow-
 @media (max-width: 680px) { .nav .name { display: none; } }
 
 /* Hero: name, one sentence, actions */
-.hero { padding-block: 64px 72px; }
-@media (min-width: 860px) { .hero { padding-block: 104px 112px; } }
-.hero h1 { font-size: clamp(56px, 13vw, 168px); line-height: 0.95; font-weight: 800; letter-spacing: -0.035em; font-variation-settings: "wdth" 88; }
-.hero .lede { font-size: clamp(21px, 2.6vw, 30px); line-height: 1.4; color: var(--soft); margin-top: 26px; max-width: 34ch; }
+.hero { display: grid; gap: 40px; align-items: center; padding-block: 56px 64px; }
+@media (min-width: 860px) { .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: 56px; padding-block: 72px 80px; } }
+.hero h1 { font-size: clamp(52px, 7.6vw, 100px); line-height: 0.95; font-weight: 800; letter-spacing: -0.035em; font-variation-settings: "wdth" 88; }
+.hero .lede { font-size: clamp(20px, 2.2vw, 24px); line-height: 1.45; color: var(--soft); margin-top: 22px; max-width: 30ch; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
 .btn { font: inherit; font-size: 17px; font-weight: 700; padding: 11px 20px; border-radius: 6px; border: 1.5px solid var(--accent); background: var(--accent); color: var(--on-accent); cursor: pointer; text-decoration: none; overflow: hidden; transition: background-color 0.15s, color 0.15s, transform 160ms var(--ease-out); }
 .btn:active { transform: scale(0.97); }
@@ -46,8 +46,22 @@ h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; overflow-
 .btn.quiet:hover { background: var(--ink); color: var(--paper); }
 .facts { margin-top: 26px; color: var(--soft); font-size: 16px; }
 
-/* Small round photo beside the About text */
-.avatar { float: right; width: 96px; height: 96px; margin: 4px 0 12px 20px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 3px #fff, 0 0 0 4px var(--line); }
+/* Portrait in a terminal window: green character version, with a button to see the real photo */
+.term-wrap { width: 100%; max-width: 400px; justify-self: center; }
+.term { margin: 0; border-radius: 12px; overflow: hidden; background: #07100b;
+  box-shadow: 0 0 0 1px #1d3a28, 0 24px 60px -24px rgba(20, 35, 28, 0.55), 0 0 48px -12px rgba(60, 200, 110, 0.4); }
+.term-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid #1d3a28;
+  font: 700 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #7ce69a; }
+.term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+.term-bar i:nth-child(2) { background: #febc2e; }
+.term-bar i:nth-child(3) { background: #28c840; }
+.term-bar span { margin-left: 10px; }
+.term-shot { position: relative; aspect-ratio: 1; }
+.term-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.term-shot .real { opacity: 0; transition: opacity 300ms var(--ease-out); }
+.term.real-on .real { opacity: 1; }
+.swap { display: block; margin: 12px auto 0; font: inherit; font-size: 15px; color: var(--soft); background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 4px; }
+.swap:hover { color: var(--ink); }
 
 /* Sections */
 section { border-top: 1px solid var(--line); padding: 64px 0; }
@@ -106,7 +120,7 @@ footer { border-top: 1px solid var(--line); padding: 36px 0 44px; color: var(--s
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn { transition: none; }
+  .btn, .term-shot .real { transition: none; }
 }
 
 .nav nav a[aria-current="page"] { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }

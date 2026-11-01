@@ -66,6 +66,16 @@
   drawDesk(0);
   if (!reduce) setInterval(wake, 3000);
 
+  /* ---------- Portrait: switch between the green terminal version and the real photo ---------- */
+  var swap = document.getElementById("swap-btn");
+  if (swap) swap.addEventListener("click", function () {
+    var term = document.getElementById("term"), on = term.classList.toggle("real-on");
+    term.querySelector(".green").setAttribute("aria-hidden", on ? "true" : "false");
+    term.querySelector(".real").setAttribute("aria-hidden", on ? "false" : "true");
+    swap.setAttribute("aria-pressed", on ? "true" : "false");
+    swap.textContent = on ? "See terminal version" : "See real photo";
+  });
+
   /* ---------- Lists that ripple in, once per visit ---------- */
   function rippleOnce(el, key) {
     if (!el || reduce) return;
