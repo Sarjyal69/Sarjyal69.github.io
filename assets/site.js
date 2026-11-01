@@ -127,6 +127,13 @@
     onView(flow, function () { flow.classList.add("in"); });
   }
 
+  // line drawings sketch themselves in
+  if (!reduce) [].forEach.call(document.querySelectorAll(".art"), function (svg) {
+    [].forEach.call(svg.children, function (el, n) { el.style.setProperty("--i", n); });
+    svg.classList.add("draw");
+    onView(svg, function () { svg.classList.add("in"); });
+  });
+
   /* ---------- Lists that ripple in, once per visit ---------- */
   function rippleOnce(el, key) {
     if (!el || reduce) return;

@@ -215,6 +215,7 @@ a, button { touch-action: manipulation; }
 .arts { display: flex; gap: 8px; }
 .art { width: 64px; height: 64px; fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .art .hl { fill: var(--accent); stroke: var(--accent); }
+.art .knock { stroke: var(--on-accent); }
 .art .hl-line { stroke: var(--accent); }
 @media (min-width: 860px) {
   .sec-head { flex-direction: column; align-items: flex-start; gap: 28px; }
@@ -240,3 +241,19 @@ a, button { touch-action: manipulation; }
 .flow.anim li::after { transform: scale(0); transition: transform 220ms var(--ease-out); transition-delay: calc(var(--i) * 180ms + 120ms); }
 .flow.anim.in li { opacity: 1; }
 .flow.anim.in li::after { transform: none; }
+
+/* Experience: company logo beside each role */
+.role-head { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 16px; align-items: center; margin-bottom: 14px; }
+.role-head .meta { margin: 4px 0 0; }
+.co { display: block; width: 48px; height: 48px; border-radius: 9px; }
+.co.wide { width: 104px; height: auto; border-radius: 0; }
+@media (max-width: 520px) { .role-head { grid-template-columns: 1fr; gap: 10px; } }
+
+/* Drawings sketch themselves in once, line by line */
+.art.draw * { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.art.draw .hl { fill-opacity: 0; }
+.art.draw.in * { animation: sketch 900ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 70ms); }
+.art.draw.in .hl { animation: sketch 900ms var(--ease-out) forwards, fill-in 400ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 70ms), calc(var(--i, 0) * 70ms + 500ms); }
+@keyframes sketch { to { stroke-dashoffset: 0; } }
+@keyframes fill-in { to { fill-opacity: 1; } }
+
