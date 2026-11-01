@@ -34,8 +34,8 @@
   });
   window.addEventListener("pointermove", function (e) { var r = dc.getBoundingClientRect(); dm.x = (e.clientX - r.left) / r.width * W; dm.y = (e.clientY - r.top) / r.height * H; idle = 0; wake(); });
   function almond(cx, cy, w, h) { dx.beginPath(); dx.moveTo(cx - w, cy); dx.quadraticCurveTo(cx, cy - h * 2, cx + w, cy); dx.quadraticCurveTo(cx, cy + h * 2, cx - w, cy); dx.closePath(); }
+  var INK = tok("--ink"), SOFT = tok("--soft"), LINE = tok("--line"), ACC = tok("--accent"), BG = tok("--paper"), FONT = "11px " + tok("--font");
   function drawDesk(dt) {
-    var INK = tok("--ink"), SOFT = tok("--soft"), LINE = tok("--line"), ACC = tok("--accent"), BG = tok("--paper");
     tt += dt; busyK = Math.max(0, busyK - dt); if (!busyK) idle += dt;
     dx.clearRect(0, 0, W, H); dx.lineWidth = 1.6; dx.lineCap = "round"; dx.lineJoin = "round";
     var ex = W / 2, ey = 30, tx = 0, ty = 0;
@@ -50,7 +50,7 @@
     dx.fillStyle = INK; dx.beginPath(); dx.arc(ex + gaze.x, ey + gaze.y, 5, 0, Math.PI * 2); dx.fill();
     dx.fillStyle = BG; dx.beginPath(); dx.arc(ex + gaze.x + 2, ey + gaze.y - 2, 1.4, 0, Math.PI * 2); dx.fill();
     dx.restore(); dx.strokeStyle = INK; almond(ex, ey, 46, h); dx.stroke();
-    dx.font = "11px " + tok("--font"); dx.textAlign = "center"; dx.textBaseline = "middle";
+    dx.font = FONT; dx.textAlign = "center"; dx.textBaseline = "middle";
     var anyLit = false;
     Object.keys(KEYS).forEach(function (c) {
       var k = KEYS[c], l = lit[c] || 0;

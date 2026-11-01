@@ -6,19 +6,23 @@
   /* ---------- The binary portrait: the page's one moment ---------- */
   var box = document.getElementById("portrait"), cv = document.getElementById("binary"), ctx = cv.getContext("2d");
   var photo = box.querySelector("img");
-  var COLS = 112, cells = [], ROWS = 0, cw = 0, ch = 0, mouse = null, settled = false, startT = 0;
+  var DIGITS = tok("--digits"), COLS = 96, cells = [], ROWS = 0, cw = 0, ch = 0, mouse = null, settled = false, startT = 0;
   function build() {
     var s = document.createElement("canvas"), sx = s.getContext("2d");
     ROWS = Math.round(COLS / 1.6);
     s.width = COLS; s.height = ROWS;
     sx.drawImage(photo, 0, 0, COLS, ROWS);
-    var px = sx.getImageData(0, 0, COLS, ROWS).data, vals = [], lo = 255, hi = 0;
-    for (var i = 0; i < COLS * ROWS; i++) { var v = 0.3 * px[i * 4] + 0.59 * px[i * 4 + 1] + 0.11 * px[i * 4 + 2]; vals.push(v); lo = Math.min(lo, v); hi = Math.max(hi, v); }
-    cells = vals.map(function (v, i) {
-      var n = (v - lo) / (hi - lo || 1);
-      var ink = n > 0.92 ? 0 : Math.max(0.08, Math.min(1, Math.pow(1 - n, 1.25) * 1.15));
-      return { ink: ink, ch: Math.random() < 0.5 ? "0" : "1", delay: Math.random() * 0.9 + (i / COLS / ROWS) * 0.4 };
-    });
+    var px = sx.getImageData(0, 0, COLS, ROWS).data;
+    cells = [];
+    for (var i = 0; i < COLS * ROWS; i++) {
+      var x = i % COLS, y = (i / COLS) | 0, dx = (x + 0.5) / COLS - 0.5, dy = (y + 0.5) / ROWS - 0.5;
+      var r = px[i * 4], g = px[i * 4 + 1], b = px[i * 4 + 2];
+      // skip the near-white studio backdrop and anything outside the circle
+      var m = (r + g + b) / 3, keep = dx * dx + dy * dy < 0.235 && m < 222;
+      // stronger, slightly darker colour so thin digits still read as a face on white
+      r = Math.max(0, Math.min(255, (m + (r - m) * 1.8) * 0.78)) | 0; g = Math.max(0, Math.min(255, (m + (g - m) * 1.8) * 0.78)) | 0; b = Math.max(0, Math.min(255, (m + (b - m) * 1.8) * 0.78)) | 0;
+      cells.push(keep ? { ink: Math.min(1, 0.12 + Math.pow(1 - m / 222, 1.3) * 1.6), col: "rgb(" + r + "," + g + "," + b + ")", ch: Math.random() < 0.5 ? "0" : "1", delay: Math.random() * 0.9 + (i / COLS / ROWS) * 0.4 } : null);
+    }
     size();
   }
   function size() {
@@ -28,12 +32,12 @@
     cw = r.width / COLS; ch = r.height / ROWS;
   }
   function draw(t) {
-    var w = cv.width, ink = tok("--ink"), now = (t - startT) / 1000, busy = false;
+    var w = cv.width, now = (t - startT) / 1000, busy = false;
     ctx.clearRect(0, 0, w, cv.height);
-    ctx.font = "700 " + (ch * 0.95).toFixed(1) + "px " + tok("--digits");
-    ctx.textBaseline = "top"; ctx.fillStyle = ink;
+    ctx.font = "700 " + (ch * 0.95).toFixed(1) + "px " + DIGITS;
+    ctx.textBaseline = "top";
     for (var y = 0; y < ROWS; y++) for (var x = 0; x < COLS; x++) {
-      var c = cells[y * COLS + x]; if (!c.ink) continue;
+      var c = cells[y * COLS + x]; if (!c) continue;
       var a = c.ink, glyph = c.ch;
       if (!settled) {
         var p = Math.min(1, Math.max(0, (now - c.delay) / 0.5));
@@ -43,7 +47,7 @@
         var dx = (x + 0.5) * cw - mouse.x, dy = (y + 0.5) * ch - mouse.y;
         if (dx * dx + dy * dy < 1600) { glyph = Math.random() < 0.5 ? "0" : "1"; busy = true; }
       }
-      ctx.globalAlpha = a; ctx.fillText(glyph, x * cw, y * ch);
+      ctx.globalAlpha = a; ctx.fillStyle = c.col; ctx.fillText(glyph, x * cw, y * ch);
     }
     ctx.globalAlpha = 1;
     if (!busy && !settled) settled = true;
