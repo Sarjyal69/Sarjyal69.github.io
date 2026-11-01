@@ -1,13 +1,13 @@
 /* Hallmark floor, custom direction. Signature: the portrait as a black-and-white terminal window, with the real photo one click away.
    Critique: one accent for links and actions; motion only where it explains something. */
 :root {
-  /* Light only: white page, black type and headings, terracotta for actions and links */
+  /* Light only: white page, black type and headings, blue for actions and links */
   --paper: #ffffff;
   --ink: #111111;
   --soft: #555555;
   --line: #e3e3e3;
   --head: #111111;
-  --accent: #b4441c;
+  --accent: #1d4ed8;
   --on-accent: #ffffff;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --display: "Bricolage Grotesque", "Atkinson Hyperlegible Next", Arial, sans-serif;
