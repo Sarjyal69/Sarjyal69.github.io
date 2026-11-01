@@ -15,7 +15,7 @@
     { id: "how", label: "How he works", words: ["approach", "story", "stories", "example", "examples", "star", "problem", "problems", "fix", "process", "method"],
       html: 'Four real problems told as situation, task, action and result, plus his five steps for fixing things: report, check the basics, narrow it down, fix and test, write it up. <a href="how-i-work.html">Open How I work</a>' },
     { id: "contact", label: "How do I contact him?", words: ["contact", "email", "mail", "phone", "call", "reach", "hire", "message", "talk", "interview", "linkedin"],
-      html: "Email " + MAIL + '. The <a href="contact.html">Contact page</a> also has his phone number and a copy-email button.' },
+      html: "Email " + MAIL + '. The <a href="contact.html">Contact page</a> has a copy-email button. His phone number and referees are shared on request by email.' },
     { id: "available", label: "Is he available?", words: ["available", "availability", "start", "visa", "rights", "when", "where", "location", "located", "darwin", "based", "live", "relocate"],
       html: 'Yes. He is based in Darwin, NT, has full work rights, and is available to start now. <a href="contact.html">Get in touch</a>' },
     { id: "resume", label: "Can I get his résumé?", words: ["resume", "résumé", "cv", "referee", "referees", "reference", "references"],
