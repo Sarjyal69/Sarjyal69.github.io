@@ -1,6 +1,6 @@
 # Shuvang Arjyal: portfolio
 
-A portfolio designed as an IT service status page: an overall status banner, an uptime history with one bar per month for each job and course (hover a bar to see what happened), and past "incidents" that tell work stories as Investigating, Identified, Fix in progress and Resolved. Experience, skills with app logos, education and contact follow on one scroll, with a small eye and keyboard that react to typing.
+A calm, text-editor style portfolio in plain English. Tabs along the top (About, Skills, Experience, Work knowledge, Education, Contact), mirroring the resume section by section,, text that types itself out, an eye that follows you, and a QWERTY keyboard that lights up each key as the page types it. The Skills tab shows the tools I have used, with logos from the Iconify logos, devicon and Simple Icons sets.
 
 Everything is in `index.html`, with no build step.
 
