@@ -1,6 +1,6 @@
 # Shuvang Arjyal: portfolio
 
-A calm, text-editor style portfolio in plain English. Tabs along the top (About, Skills, Experience, Work knowledge, Education, Contact), mirroring the resume section by section,, text that types itself out, an eye that follows you, and a QWERTY keyboard that lights up each key as the page types it. The Skills tab shows the tools I have used, with logos from the Iconify logos, devicon and Simple Icons sets.
+A plain, readable one-page portfolio. The one moment of motion is a portrait drawn in ones and zeros that settles into place on load; the digits flip under the mouse, and a button shows the real photo. Below it: about, experience, how I work (four stories in situation, task, action, result form), skills with app logos, education and contact, with a small eye and keyboard that react to typing. Cleaned up against the kill-ai-slop, taste-skill and Hallmark checklists.
 
 Everything is in `index.html`, with no build step.
 
