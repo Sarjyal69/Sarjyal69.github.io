@@ -1,12 +1,14 @@
 /* Hallmark floor, custom direction. Signature: the portrait drawn in binary digits.
    Critique: one moment (the portrait settling), everything else still; one accent for links; mono only inside the portrait. */
 :root {
-  --paper: #f6f6f3;
-  --ink: #171717;
-  --soft: #5b5b57;
-  --line: #d9d9d3;
-  --accent: #2f5d50;
+  --paper: #f3f4f1;
+  --ink: #111418;
+  --soft: #545a62;
+  --line: #d7dadf;
+  --accent: #1f3bff;
+  --on-accent: #ffffff;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --display: "Bricolage Grotesque", "Atkinson Hyperlegible Next", Arial, sans-serif;
   --digits: "JetBrains Mono", "DejaVu Sans Mono", Consolas, monospace;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   color-scheme: light;
@@ -150,3 +152,13 @@ footer .wrap { display: grid; gap: 24px; align-items: end; }
   .ripple > li, .ripple .alist li, .lbl.in { animation: none; }
   .btn:active { transform: none; }
 }
+
+/* Colour and type pass: headings in Bricolage Grotesque, one cobalt accent for actions and links */
+h1, h2, h3, .nav .name { font-family: var(--display); }
+.hero h1 { font-weight: 800; letter-spacing: -0.035em; font-variation-settings: "wdth" 88; }
+.sec > h2 { font-weight: 700; }
+.btn { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.btn.quiet { background: transparent; border-color: var(--ink); color: var(--ink); }
+.btn.quiet:hover { background: var(--ink); color: var(--paper); }
+.nav nav a[aria-current="page"] { color: var(--accent); }
