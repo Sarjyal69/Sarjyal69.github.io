@@ -1,12 +1,12 @@
-/* Hallmark floor, custom direction. Signature: the portrait as a green terminal window, with the real photo one click away.
+/* Hallmark floor, custom direction. Signature: the portrait as a black-and-white terminal window, with the real photo one click away.
    Critique: one accent for links and actions; motion only where it explains something. */
 :root {
-  /* Light: sage page, forest green headings, terracotta actions */
-  --paper: #eef2ec;
-  --ink: #14231c;
-  --soft: #4f5f56;
-  --line: #d3ddd4;
-  --head: #1f7a4d;
+  /* Light only: white page, black type and headings, terracotta for actions and links */
+  --paper: #ffffff;
+  --ink: #111111;
+  --soft: #555555;
+  --line: #e3e3e3;
+  --head: #111111;
   --accent: #b4441c;
   --on-accent: #ffffff;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
@@ -14,11 +14,6 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   color-scheme: light;
 }
-/* Dark: near-black page, neon green headings (matches the terminal portrait), electric yellow actions */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --paper: #0c100e; --ink: #edf3ef; --soft: #a7b4ad; --line: #24302a; --head: #4ade80; --accent: #ffd23f; --on-accent: #0c100e; color-scheme: dark; }
-}
-:root[data-theme="dark"] { --paper: #0c100e; --ink: #edf3ef; --soft: #a7b4ad; --line: #24302a; --head: #4ade80; --accent: #ffd23f; --on-accent: #0c100e; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { overflow-x: clip; }
 html { scroll-behavior: smooth; scroll-padding-top: 64px; }
@@ -55,10 +50,10 @@ h1, h2, h3 { margin: 0; color: var(--head); font-family: var(--display); font-we
 
 /* Portrait in a terminal window: green character version, with a button to see the real photo */
 .term-wrap { width: 100%; max-width: 400px; justify-self: center; }
-.term { margin: 0; border-radius: 12px; overflow: hidden; background: #07100b;
-  box-shadow: 0 0 0 1px #1d3a28, 0 24px 60px -24px rgba(20, 35, 28, 0.55), 0 0 48px -12px rgba(60, 200, 110, 0.4); }
-.term-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid #1d3a28;
-  font: 700 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #7ce69a; }
+.term { margin: 0; border-radius: 12px; overflow: hidden; background: #0b0b0b;
+  box-shadow: 0 0 0 1px #2a2a2a, 0 24px 60px -24px rgba(0, 0, 0, 0.55), 0 0 48px -14px rgba(0, 0, 0, 0.35); }
+.term-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid #2a2a2a;
+  font: 700 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #e6e6e6; }
 .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
 .term-bar i:nth-child(2) { background: #febc2e; }
 .term-bar i:nth-child(3) { background: #28c840; }
@@ -174,13 +169,9 @@ footer .wrap { display: grid; gap: 24px; align-items: end; }
 .skip:focus-visible { top: 12px; }
 a, button { touch-action: manipulation; }
 
-/* Dark page: logos sit on small light tiles so black marks (ChatGPT, Grok, Cursor and others) stay visible */
+/* Logos sit on small light tiles so every mark reads at the same size */
 .alist svg, .alist img, .paths svg, .paths img { width: 22px; height: 22px; padding: 2px; background: #f4f7f5; color: #14231c; border-radius: 5px; }
 
-/* Light / dark switch in the header */
-.theme-btn { flex: none; display: grid; place-items: center; width: 36px; height: 36px; margin-left: -6px; border: 1px solid var(--line); border-radius: 50%; background: none; color: var(--ink); cursor: pointer; }
-.theme-btn:hover { border-color: var(--ink); }
-.theme-btn svg { width: 18px; height: 18px; }
 
 /* 1. The name types itself, with a terminal cursor that follows the letters */
 .hero h1.typing .ch { opacity: 0; position: relative; }
@@ -188,25 +179,20 @@ a, button { touch-action: manipulation; }
 .hero h1 .ch.cur::after { content: ""; position: absolute; top: 0.12em; bottom: 0.06em; right: -0.1em; width: 0.07em; background: var(--accent); animation: blink 0.9s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* 2. The portrait boots up: a green scan line sweeps down and reveals it */
+/* 2. The portrait boots up: a white scan line sweeps down and reveals it */
 .term.boot .green { animation: boot-reveal 700ms var(--ease-out) 150ms both; }
-.term.boot .term-shot::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #7cff9e; box-shadow: 0 0 14px 3px rgba(124, 255, 158, 0.7); animation: boot-scan 700ms var(--ease-out) 150ms both; }
+.term.boot .term-shot::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #ffffff; box-shadow: 0 0 14px 3px rgba(255, 255, 255, 0.7); animation: boot-scan 700ms var(--ease-out) 150ms both; }
 @keyframes boot-reveal { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes boot-scan { from { transform: translateY(0); opacity: 1; } 90% { opacity: 1; } to { transform: translateY(var(--h, 400px)); opacity: 0; } }
 .term-shot { container-type: inline-size; }
 .term.boot .term-shot::after { --h: 100cqw; }
 .term-bar .cursor { display: inline-block; width: 7px; height: 13px; margin-left: 4px; vertical-align: -2px; background: currentColor; animation: blink 1s steps(1) 6; }
 
-/* 4. Light/dark: the new colours spread out in a circle from the button */
-html.theme-vt::view-transition-old(root) { animation: none; }
-html.theme-vt::view-transition-new(root) { animation: theme-reveal 420ms var(--ease-out); }
-@keyframes theme-reveal { from { clip-path: circle(0 at var(--tx) var(--ty)); } to { clip-path: circle(var(--tr) at var(--tx) var(--ty)); } }
-
-/* 5. "Get in touch" arrow slides in on hover; the copied email gets a brief highlight */
+/* 5. "Get in touch" arrow nudges forward on hover; the copied email gets a brief highlight */
 .btn .arrow { display: inline-block; margin-left: 0.35em; }
 @media (hover: hover) {
-  .btn .arrow { opacity: 0; transform: translateX(-6px); transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out); }
-  .btn:hover .arrow, .btn:focus-visible .arrow { opacity: 1; transform: none; }
+  .btn .arrow { transition: transform 160ms var(--ease-out); }
+  .btn:hover .arrow, .btn:focus-visible .arrow { transform: translateX(4px); }
 }
 .contact .email { width: fit-content; }
 .contact .email.flash { animation: copied 900ms var(--ease-out); border-radius: 4px; }
