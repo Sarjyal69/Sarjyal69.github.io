@@ -1,19 +1,24 @@
 /* Hallmark floor, custom direction. Signature: the portrait as a green terminal window, with the real photo one click away.
    Critique: one accent for links and actions; motion only where it explains something. */
 :root {
-  /* High-attention scheme: near-black page, neon green headings (matches the terminal portrait), electric yellow actions */
-  --paper: #0c100e;
-  --ink: #edf3ef;
-  --soft: #a7b4ad;
-  --line: #24302a;
-  --head: #4ade80;
-  --accent: #ffd23f;
-  --on-accent: #0c100e;
+  /* Light: sage page, forest green headings, terracotta actions */
+  --paper: #eef2ec;
+  --ink: #14231c;
+  --soft: #4f5f56;
+  --line: #d3ddd4;
+  --head: #1f7a4d;
+  --accent: #b4441c;
+  --on-accent: #ffffff;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --display: "Bricolage Grotesque", "Atkinson Hyperlegible Next", Arial, sans-serif;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  color-scheme: dark;
+  color-scheme: light;
 }
+/* Dark: near-black page, neon green headings (matches the terminal portrait), electric yellow actions */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #0c100e; --ink: #edf3ef; --soft: #a7b4ad; --line: #24302a; --head: #4ade80; --accent: #ffd23f; --on-accent: #0c100e; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --paper: #0c100e; --ink: #edf3ef; --soft: #a7b4ad; --line: #24302a; --head: #4ade80; --accent: #ffd23f; --on-accent: #0c100e; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { overflow-x: clip; }
 html { scroll-behavior: smooth; scroll-padding-top: 64px; }
@@ -170,3 +175,8 @@ a, button { touch-action: manipulation; }
 
 /* Dark page: logos sit on small light tiles so black marks (ChatGPT, Grok, Cursor and others) stay visible */
 .alist svg, .alist img, .paths svg, .paths img { width: 22px; height: 22px; padding: 2px; background: #f4f7f5; color: #14231c; border-radius: 5px; }
+
+/* Light / dark switch in the header */
+.theme-btn { flex: none; display: grid; place-items: center; width: 36px; height: 36px; margin-left: -6px; border: 1px solid var(--line); border-radius: 50%; background: none; color: var(--ink); cursor: pointer; }
+.theme-btn:hover { border-color: var(--ink); }
+.theme-btn svg { width: 18px; height: 18px; }
