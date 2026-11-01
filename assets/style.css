@@ -1,17 +1,18 @@
 /* Hallmark floor, custom direction. Signature: the portrait as a green terminal window, with the real photo one click away.
    Critique: one accent for links and actions; motion only where it explains something. */
 :root {
-  --paper: #eef2ec;
-  --ink: #14231c;
-  --soft: #4f5f56;
-  --line: #d3ddd4;
-  --head: #1f7a4d;
-  --accent: #b4441c;
-  --on-accent: #ffffff;
+  /* High-attention scheme: near-black page, neon green headings (matches the terminal portrait), electric yellow actions */
+  --paper: #0c100e;
+  --ink: #edf3ef;
+  --soft: #a7b4ad;
+  --line: #24302a;
+  --head: #4ade80;
+  --accent: #ffd23f;
+  --on-accent: #0c100e;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --display: "Bricolage Grotesque", "Atkinson Hyperlegible Next", Arial, sans-serif;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  color-scheme: light;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { overflow-x: clip; }
@@ -166,3 +167,6 @@ footer .wrap { display: grid; gap: 24px; align-items: end; }
 .skip { position: absolute; left: 12px; top: -48px; z-index: 10; padding: 8px 14px; border-radius: 6px; background: var(--accent); color: var(--on-accent); font-weight: 700; text-decoration: none; }
 .skip:focus-visible { top: 12px; }
 a, button { touch-action: manipulation; }
+
+/* Dark page: logos sit on small light tiles so black marks (ChatGPT, Grok, Cursor and others) stay visible */
+.alist svg, .alist img, .paths svg, .paths img { width: 22px; height: 22px; padding: 2px; background: #f4f7f5; color: #14231c; border-radius: 5px; }
