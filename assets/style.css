@@ -1,5 +1,5 @@
-/* Hallmark floor, custom direction. Signature: the portrait drawn in binary digits.
-   Critique: one moment (the portrait settling), everything else still; one accent for links; mono only inside the portrait. */
+/* Hallmark floor, custom direction. Signature: the round portrait, gathered from coloured dots on load.
+   Critique: one moment (the portrait arriving), everything else still; one accent for links. */
 :root {
   --paper: #f3f4f1;
   --ink: #111418;
@@ -9,7 +9,6 @@
   --on-accent: #ffffff;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --display: "Bricolage Grotesque", "Atkinson Hyperlegible Next", Arial, sans-serif;
-  --digits: "JetBrains Mono", "DejaVu Sans Mono", Consolas, monospace;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   color-scheme: light;
 }
@@ -47,19 +46,22 @@ h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; overflow-
 .btn.quiet:hover { background: var(--ink); color: var(--paper); }
 .facts { margin-top: 26px; color: var(--soft); font-size: 16px; }
 
-.portrait { position: relative; width: 100%; max-width: 440px; aspect-ratio: 1; justify-self: center; isolation: isolate; }
+.portrait { position: relative; width: 100%; max-width: 440px; aspect-ratio: 1; justify-self: center; isolation: isolate;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 400ms var(--ease-out); }
+.portrait.tilt { transition-duration: 120ms; }
+/* light that follows the mouse across the photo */
+.portrait::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 300ms;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.35), transparent 45%); }
+.portrait.tilt::after { opacity: 1; }
 /* soft glow behind the round portrait: a few slow turns on arrival, then it rests */
 .portrait::before { content: ""; position: absolute; inset: -6%; z-index: -1; border-radius: 50%;
   background: conic-gradient(from 0deg, var(--accent), #00c2ff, #8a5cff, #ff5ca8, var(--accent));
   filter: blur(34px); opacity: 0.55; animation: glow-spin 14s linear 3; }
 @keyframes glow-spin { to { transform: rotate(1turn); } }
 .portrait canvas, .portrait img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px #fff, 0 18px 50px -20px rgba(17, 20, 24, 0.45); }
-.portrait img { object-fit: cover; opacity: 0; transition: opacity 0.4s; }
-.portrait.photo img { opacity: 1; }
-.portrait.photo canvas { opacity: 0; transition: opacity 0.4s; }
-.swap { margin-top: 12px; display: flex; justify-content: center; }
-.swap button { font: inherit; font-size: 15px; color: var(--soft); background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 4px; }
-.swap button:hover { color: var(--ink); }
+.portrait img { object-fit: cover; }
+.portrait canvas { transition: opacity 500ms var(--ease-out); }
+.portrait.shown canvas { opacity: 0; }
 
 /* Sections */
 section { border-top: 1px solid var(--line); padding: 64px 0; }
@@ -118,7 +120,7 @@ footer { border-top: 1px solid var(--line); padding: 36px 0 44px; color: var(--s
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .btn, .portrait img, .portrait.photo canvas { transition: none; }
+  .btn, .portrait, .portrait canvas { transition: none; }
   .portrait::before { animation: none; }
 }
 
