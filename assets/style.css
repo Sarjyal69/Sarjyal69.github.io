@@ -70,7 +70,7 @@ h1, h2, h3 { margin: 0; color: var(--head); font-family: var(--display); font-we
 section { border-top: 1px solid var(--line); padding: 64px 0; }
 .sec { display: grid; gap: 20px 64px; }
 @media (min-width: 860px) { .sec { grid-template-columns: 220px minmax(0, 1fr); } }
-.sec > h2 { font-size: 28px; line-height: 1.2; letter-spacing: -0.01em; }
+.sec > h2, .sec-head h2 { font-size: 28px; line-height: 1.2; letter-spacing: -0.01em; }
 .body { max-width: 68ch; }
 .body > p + p { margin-top: 14px; }
 
@@ -202,3 +202,41 @@ a, button { touch-action: manipulation; }
   .term.boot .green, .term.boot .term-shot::after, .term-bar .cursor, .contact .email.flash { animation: none; }
   .term.boot .term-shot::after { display: none; }
 }
+
+/* Figures 1: number highlights on the home page (real facts only) */
+.figs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; }
+@media (min-width: 860px) { .figs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.figs strong { display: block; font: 800 clamp(44px, 6vw, 64px)/1 var(--display); color: var(--ink); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.figs strong::after { content: ""; display: block; width: 28px; height: 4px; margin: 12px 0 10px; border-radius: 2px; background: var(--accent); }
+.figs span { color: var(--soft); font-size: 16px; line-height: 1.4; display: block; max-width: 22ch; }
+
+/* Figures 2: line-art drawings beside page headings */
+.sec-head { display: flex; align-items: center; gap: 16px; }
+.arts { display: flex; gap: 8px; }
+.art { width: 64px; height: 64px; fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.art .hl { fill: var(--accent); stroke: var(--accent); }
+.art .hl-line { stroke: var(--accent); }
+@media (min-width: 860px) {
+  .sec-head { flex-direction: column; align-items: flex-start; gap: 28px; }
+  .arts { flex-direction: column; gap: 20px; }
+  .art { width: 120px; height: 120px; stroke-width: 2; }
+}
+
+/* Figures 3: how I fix things, steps light up in order */
+.flow-fig { margin: 0 0 44px; }
+.flow-fig figcaption { font: 700 18px/1.3 var(--display); margin-bottom: 16px; }
+.flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.flow li { position: relative; display: flex; align-items: center; gap: 12px; }
+.flow b { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--ink); font: 700 15px/1 var(--display); background: var(--paper); position: relative; z-index: 1; }
+.flow li:last-child b { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.flow li:not(:last-child)::after { content: ""; position: absolute; left: 17px; top: 36px; height: 14px; width: 2px; background: var(--ink); transform-origin: top; }
+@media (min-width: 640px) {
+  .flow { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+  .flow li { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .flow li:not(:last-child)::after { left: 40px; right: -6px; top: 17px; width: auto; height: 2px; transform-origin: left; }
+  .flow span { font-size: 15px; line-height: 1.35; }
+}
+.flow.anim li { opacity: 0.2; transition: opacity 260ms var(--ease-out); transition-delay: calc(var(--i) * 180ms); }
+.flow.anim li::after { transform: scale(0); transition: transform 220ms var(--ease-out); transition-delay: calc(var(--i) * 180ms + 120ms); }
+.flow.anim.in li { opacity: 1; }
+.flow.anim.in li::after { transform: none; }

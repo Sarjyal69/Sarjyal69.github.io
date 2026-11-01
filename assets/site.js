@@ -99,6 +99,34 @@
     term.classList.add("boot");
   }
 
+  /* ---------- Figures: run something once when it scrolls into view ---------- */
+  function onView(el, fn) {
+    if (!el) return;
+    if (!("IntersectionObserver" in window)) return fn();
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); fn(); } }, { threshold: 0.4 });
+    io.observe(el);
+  }
+  // number highlights count up from 0; the final numbers are already in the page for screen readers and no-JS
+  var figs = document.querySelector(".figs");
+  if (figs && !reduce) onView(figs, function () {
+    [].forEach.call(figs.querySelectorAll("[data-count]"), function (el) {
+      var end = +el.dataset.count, t0 = performance.now();
+      el.setAttribute("aria-label", end);
+      (function tick(now) {
+        var k = Math.min(1, (now - t0) / 800);
+        el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  });
+  // fix-it steps light up in order
+  var flow = document.querySelector(".flow");
+  if (flow && !reduce) {
+    [].forEach.call(flow.children, function (li, n) { li.style.setProperty("--i", n); });
+    flow.classList.add("anim");
+    onView(flow, function () { flow.classList.add("in"); });
+  }
+
   /* ---------- Lists that ripple in, once per visit ---------- */
   function rippleOnce(el, key) {
     if (!el || reduce) return;
