@@ -1,11 +1,11 @@
 /* Hallmark floor, custom direction. Signature: the name set large across the top.
    Critique: one accent for links and actions; motion only where it explains something. */
 :root {
-  --paper: #f3f4f1;
-  --ink: #111418;
-  --soft: #545a62;
-  --line: #d7dadf;
-  --accent: #1f3bff;
+  --paper: #eef2ec;
+  --ink: #14231c;
+  --soft: #4f5f56;
+  --line: #d3ddd4;
+  --accent: #1f7a4d;
   --on-accent: #ffffff;
   --font: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
   --display: "Bricolage Grotesque", "Atkinson Hyperlegible Next", Arial, sans-serif;
