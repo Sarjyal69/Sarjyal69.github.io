@@ -87,10 +87,16 @@ section { border-top: 1px solid var(--line); padding: 64px 0; }
 .agroup h4 { margin: 0 0 8px; font-size: 16px; color: var(--soft); font-weight: 400; }
 .alist { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; }
 .alist li { display: inline-flex; align-items: center; gap: 9px; }
-.alist svg { width: 20px; height: 20px; flex: none; }
+.alist svg, .alist img { width: 20px; height: 20px; flex: none; border-radius: 4px; }
 .credits { margin-top: 26px; font-size: 14px; color: var(--soft); max-width: 70ch; }
 
-.edu + .edu { margin-top: 28px; }
+.edu + .edu { margin-top: 32px; }
+.edu { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 18px; align-items: start; }
+.edu .marks img { display: block; width: 40px; height: 40px; border-radius: 6px; object-fit: contain; }
+.inline-logo { height: 22px; width: auto; vertical-align: -5px; margin: 0 2px; }
+.paths { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; }
+.paths li { display: flex; align-items: center; gap: 10px; }
+.paths img, .paths svg { width: 20px; height: 20px; flex: none; border-radius: 4px; }
 .edu h3 { font-size: 20px; }
 .edu .meta { color: var(--soft); margin: 2px 0 6px; }
 
