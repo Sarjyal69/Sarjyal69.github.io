@@ -281,9 +281,8 @@ a, button { touch-action: manipulation; }
 .msg.bot { align-self: flex-start; background: #f1f2f4; border-bottom-left-radius: 5px; }
 .msg.you { align-self: flex-end; background: var(--accent); color: var(--on-accent); border-bottom-right-radius: 5px; }
 .msg a { color: var(--accent); font-weight: 700; }
-.chat-chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 14px; border-top: 1px solid var(--line); scrollbar-width: none; }
-.chat-chips::-webkit-scrollbar { display: none; }
-.chat-chips button { flex: none; font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--accent); background: none; color: var(--accent); cursor: pointer; }
+.chat-chips { display: flex; flex-wrap: wrap; gap: 6px; max-height: 172px; overflow-y: auto; overscroll-behavior: contain; padding: 8px 14px; border-top: 1px solid var(--line); }
+.chat-chips button { flex: none; font: inherit; font-size: 13.5px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--accent); background: none; color: var(--accent); cursor: pointer; }
 .chat-chips button:hover { background: var(--accent); color: var(--on-accent); }
 .chat-form { display: flex; gap: 8px; padding: 10px 12px 12px; }
 .chat-form input { flex: 1; min-width: 0; font: inherit; font-size: 16px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); }
@@ -292,10 +291,18 @@ a, button { touch-action: manipulation; }
 @media (prefers-reduced-motion: reduce) { .chat-fab, .chat { animation: none; transition: none; } }
 
 /* Greeting bubble beside the eye */
-.chat-hello { position: fixed; z-index: 20; right: calc(max(18px, env(safe-area-inset-right)) + 70px); bottom: calc(max(18px, env(safe-area-inset-bottom)) + 8px); max-width: min(260px, calc(100vw - 110px)); display: flex; align-items: flex-start; gap: 2px; padding: 10px 6px 10px 14px; border-radius: 14px 14px 4px 14px; background: var(--ink); color: #fff; box-shadow: 0 12px 30px -12px rgba(17, 17, 17, 0.5); animation: hello-in 300ms var(--ease-out); }
-.chat-hello .hello-open { font: inherit; font-size: 15px; line-height: 1.4; text-align: left; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
-.chat-hello .hello-x { flex: none; width: 26px; height: 26px; margin-top: -4px; border: 0; border-radius: 50%; background: none; color: #c9c9c9; font-size: 18px; line-height: 1; cursor: pointer; }
+.chat-hello { position: fixed; z-index: 21; right: max(18px, env(safe-area-inset-right)); bottom: calc(max(18px, env(safe-area-inset-bottom)) + 72px); width: min(300px, calc(100vw - 24px)); padding: 14px; border-radius: 16px 16px 6px 16px; background: var(--ink); color: #fff; box-shadow: 0 16px 40px -14px rgba(17, 17, 17, 0.55); animation: hello-in 260ms var(--ease-out); transform-origin: bottom right; }
+@media (max-width: 480px) { .chat-hello { right: 12px; } }
+.hello-top { display: flex; align-items: flex-start; gap: 8px; }
+.hello-top p { font-size: 15px; line-height: 1.4; font-weight: 700; }
+.chat-hello .hello-x { flex: none; width: 28px; height: 28px; margin: -4px -4px 0 auto; border: 0; border-radius: 50%; background: none; color: #c9c9c9; font-size: 20px; line-height: 1; cursor: pointer; }
 .chat-hello .hello-x:hover { color: #fff; background: rgba(255, 255, 255, 0.12); }
-@keyframes hello-in { from { opacity: 0; transform: translateX(10px) scale(0.96); } }
+.hello-picks { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.hello-picks button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.35); background: none; color: #fff; cursor: pointer; }
+.hello-picks button:hover { background: #fff; color: var(--ink); }
+.hello-more { margin-top: 10px; font: inherit; font-size: 14px; color: #9db5ff; background: none; border: 0; padding: 2px 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.hello-more:hover { color: #fff; }
+.chat-hello :focus-visible { outline: 2px solid #9db5ff; outline-offset: 2px; }
+@keyframes hello-in { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
 @media (prefers-reduced-motion: reduce) { .chat-hello { animation: none; } .chat-fab .iris, .chat-fab .lid { transition: none; } }
 

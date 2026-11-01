@@ -118,27 +118,47 @@
     })();
   }
 
-  /* ---------- Greeting: tells first-time visitors what the eye is for, once per visit ---------- */
-  var hello = null, seenHello = false;
+  /* ---------- Greeting card: shows what the helper can do before it's opened ---------- */
+  var card = null, hideTimer = null, seenHello = false;
   try { seenHello = sessionStorage.getItem("sa-hello") === "1"; } catch (e) {}
-  function hideHello() {
-    if (!hello) return;
-    hello.remove(); hello = null;
+  var PICKS = ["experience", "skills", "contact", "available"];
+  function showCard() {
+    clearTimeout(hideTimer);
+    if (card || !panel.hidden) return;
+    card = document.createElement("div");
+    card.className = "chat-hello"; card.setAttribute("role", "group"); card.setAttribute("aria-label", "What the site helper can do");
+    card.innerHTML = '<div class="hello-top"><p>Hi! I can help you navigate this website.</p><button type="button" class="hello-x" aria-label="Dismiss">&times;</button></div><div class="hello-picks"></div><button type="button" class="hello-more">More questions…</button>';
+    var picks = card.querySelector(".hello-picks");
+    ANSWERS.forEach(function (a) {
+      if (PICKS.indexOf(a.id) === -1) return;
+      var btn = document.createElement("button");
+      btn.type = "button"; btn.textContent = a.label;
+      btn.addEventListener("click", function () { open(); add("you", a.label); add("bot", a.html); });
+      picks.appendChild(btn);
+    });
+    card.querySelector(".hello-more").addEventListener("click", function () { open(); });
+    card.querySelector(".hello-x").addEventListener("click", function () { hideCard(); fab.focus(); });
+    card.addEventListener("keydown", function (e) { if (e.key === "Escape") { hideCard(); fab.focus(); } });
+    card.addEventListener("mouseenter", function () { clearTimeout(hideTimer); });
+    card.addEventListener("mouseleave", hideSoon);
+    document.body.appendChild(card);
+  }
+  function hideCard() {
+    clearTimeout(hideTimer);
+    if (!card) return;
+    card.remove(); card = null;
     try { sessionStorage.setItem("sa-hello", "1"); } catch (e) {}
   }
-  if (!seenHello && !chatted) setTimeout(function () {
-    if (!panel.hidden) return;
-    hello = document.createElement("div");
-    hello.className = "chat-hello";
-    hello.innerHTML = '<button type="button" class="hello-open">Hi! I can help you navigate this website.</button><button type="button" class="hello-x" aria-label="Dismiss">&times;</button>';
-    hello.querySelector(".hello-open").addEventListener("click", function () { hideHello(); open(); });
-    hello.querySelector(".hello-x").addEventListener("click", hideHello);
-    document.body.appendChild(hello);
-    setTimeout(hideHello, 8000);
-  }, 2000);
+  function hideSoon() { clearTimeout(hideTimer); hideTimer = setTimeout(hideCard, 350); }
+  if (!seenHello && !chatted) setTimeout(showCard, 2000);
+  if (window.matchMedia("(hover: hover)").matches) {
+    fab.addEventListener("mouseenter", showCard);
+    fab.addEventListener("mouseleave", hideSoon);
+  }
+  fab.addEventListener("focus", function () { if (fab.matches(":focus-visible")) showCard(); });
 
   function open() {
-    hideHello();
+    hideCard();
     panel.hidden = false; fab.setAttribute("aria-expanded", "true"); fab.setAttribute("aria-label", "Close site helper"); fab.classList.add("on");
     log.scrollTop = log.scrollHeight; input.focus();
   }
