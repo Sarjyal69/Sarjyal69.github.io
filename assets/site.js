@@ -17,13 +17,22 @@
 
   /* ---------- Portrait: switch between the green terminal version and the real photo ---------- */
   var swap = document.getElementById("swap-btn");
+  // the real photo only downloads when someone shows interest in it, so it doesn't slow the first load
+  var realImg = document.querySelector(".term .real");
+  function loadReal() { if (realImg && !realImg.src) realImg.src = realImg.dataset.src; }
+  if (swap) ["pointerenter", "focus", "touchstart"].forEach(function (ev) { swap.addEventListener(ev, loadReal, { passive: true }); });
   if (swap) swap.addEventListener("click", function () {
+    loadReal();
+    var showing = !document.getElementById("term").classList.contains("real-on");
+    if (showing && realImg.decode) realImg.decode().then(flip, flip); else flip();
+  });
+  function flip() {
     var term = document.getElementById("term"), on = term.classList.toggle("real-on");
     term.querySelector(".green").setAttribute("aria-hidden", on ? "true" : "false");
     term.querySelector(".real").setAttribute("aria-hidden", on ? "false" : "true");
     swap.setAttribute("aria-pressed", on ? "true" : "false");
     swap.textContent = on ? "See terminal version" : "See real photo";
-  });
+  }
 
   /* ---------- Home page arrival: the name types itself and the portrait boots up, once per visit ---------- */
   function firstTime(key) { var seen = false; try { seen = sessionStorage.getItem(key) === "1"; sessionStorage.setItem(key, "1"); } catch (e) {} return !seen; }

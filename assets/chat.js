@@ -1,5 +1,7 @@
 (function () {
   "use strict";
+  // build the helper once the page has finished loading and the browser is idle, so it never delays the first paint
+  function init() {
   /* ---------- Site helper: a small chat bubble that answers from facts already on this site ---------- */
   var EMAIL = "sarjyal69@protonmail.com";
   var MAIL = '<a href="mailto:' + EMAIL + '">' + EMAIL + "</a>";
@@ -252,4 +254,7 @@
   panel.querySelector(".chat-close").addEventListener("click", close);
   panel.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   form.addEventListener("submit", function (e) { e.preventDefault(); ask(input.value); input.value = ""; });
+  }
+  function later() { (window.requestIdleCallback || function (f) { setTimeout(f, 200); })(init, { timeout: 1500 }); }
+  if (document.readyState === "complete") later(); else window.addEventListener("load", later);
 })();
