@@ -14,7 +14,7 @@ Each page is a plain HTML file; shared styles, scripts, fonts and logos live in 
 
 ### Tools
 
-Claude Code, GitHub, GitHub Pages, Lighthouse, Playwright for browser testing, plain HTML, CSS and JavaScript (no frameworks), and self-hosted Atkinson Hyperlegible Next and Bricolage Grotesque fonts. Design and accessibility checks used the Web Interface Guidelines, Hallmark and kill-ai-slop checklists.
+Claude Code, GitHub, GitHub Pages, Lighthouse, Playwright for browser testing, plain HTML, CSS and JavaScript (no frameworks), and self-hosted Atkinson Hyperlegible Next and Bricolage Grotesque fonts. Design and accessibility checks used the Web Interface Guidelines, Hallmark checklists.
 
 ## Run locally
 
@@ -26,10 +26,6 @@ python3 -m http.server 8000
 ## Hosting
 
 Published with GitHub Pages from the `main` branch (root folder). Every push to `main` updates the live site within about a minute.
-
-## Still to add
-
-- My LinkedIn link (the Contact page shows a placeholder).
 
 ## Credits
 
