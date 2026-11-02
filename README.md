@@ -1,6 +1,8 @@
 # Shuvang Arjyal: portfolio
 
-A plain, readable portfolio across six pages (home, experience, how I work, skills, education, contact), with an eye in the corner of every page that follows the cursor, greets first-time visitors and opens a site helper that answers common questions (experience, skills, education, contact, availability) from the site's own content and links to the right page. Light theme: white page, black type, blue actions. On first arrival the name types itself and the portrait boots up with a scan line; the real-photo switch wipes like a screen refresh. The home page shows the portrait as a green terminal window, generated from the real photo, with a button to see the real photo. Below it: about, experience, how I work (four stories in situation, task, action, result form), skills with app logos, education and contact,. Cleaned up against the kill-ai-slop, taste-skill and Hallmark checklists.
+Live site: https://sarjyal69.github.io
+
+A plain, readable portfolio across six pages (home, experience, how I work, skills, education, contact), with an eye in the corner of every page that follows the cursor, greets first-time visitors and opens a site helper that answers common questions (experience, skills, education, contact, availability) from the site's own content and links to the right page. Light theme: white page, black type, blue actions. On first arrival the name types itself and the portrait boots up with a scan line; the real-photo switch wipes like a screen refresh. The home page shows the portrait as a black-and-white terminal window, generated from the real photo, with a button to see the real photo. Below it: about, experience, how I work (four stories in situation, task, action, result form), skills with app logos, education and contact. Cleaned up against the kill-ai-slop, taste-skill and Hallmark checklists.
 
 Each page is a plain HTML file; shared styles and scripts live in `assets/`. No build step.
 
