@@ -11,37 +11,6 @@ A plain, readable portfolio for IT support and helpdesk roles in Darwin, NT, acr
 
 Each page is a plain HTML file; shared styles, scripts, fonts and logos live in `assets/`. No frameworks and no build step.
 
-## How I built this site
-
-I built this portfolio with **Claude Code**, Anthropic's AI coding assistant, working as my pair-programmer and guide. I decided what the site should say, how it should look and behave, and what was good enough to ship. Claude Code wrote the code, explained the options and checked the results. I reviewed every change and tested it myself before it went live.
-
-### What I did
-
-- **Set the goal and the brief:** a plain, readable portfolio aimed at IT support and helpdesk roles in Darwin, that reads like my résumé.
-- **Supplied all the content:** my experience, the STAR stories, my courses and certificates, photos, and the company and university logos. I also corrected anything that wasn't accurate. No numbers or claims on this site are invented.
-- **Made the design calls:**
-  - I rejected early versions that looked generic or "AI-made".
-  - I chose light mode, black-and-white type with one blue accent, and the terminal-style portrait.
-  - I asked for the eye helper and decided how it should behave.
-- **Tested it like a user:** I found and reported real bugs, such as the light/dark choice resetting between pages and the chat's suggested questions being impossible to scroll. I checked each fix.
-- **Made the privacy and security decisions:** I removed my phone number from the site and from the repo's whole history before making it public, and I chose what personal information appears.
-- **Set up hosting:** I renamed the repo, made it public and turned on GitHub Pages.
-
-### What Claude Code did
-
-- Wrote the HTML, CSS and JavaScript to my brief, explaining options and trade-offs before big changes, and waiting for my go-ahead.
-- Researched colours, fonts and accessibility guidelines, and ran design, code and security reviews.
-- Tested each page in a real browser on desktop and phone, and ran Lighthouse audits.
-
-### What I learned
-
-- **Writing a clear brief and acceptance criteria matters more than the tool.** Vague requests produced work I had to throw away.
-- **Read what changed, and test it yourself.** A fix isn't done until I've seen it work.
-- **The basics of how a website goes live:**
-  - Git and GitHub: commits, history and repository settings.
-  - GitHub Pages hosting.
-  - Performance with Lighthouse (now 95 to 100).
-  - Security headers and keeping personal data out of public code.
 
 ### Tools
 
