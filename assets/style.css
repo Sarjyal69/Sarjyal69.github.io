@@ -318,3 +318,11 @@ a, button { touch-action: manipulation; }
 .chat-fab { touch-action: none; cursor: grab; }
 .chat-fab.dragging { cursor: grabbing; transform: scale(1.08); box-shadow: 0 16px 36px -8px rgba(17, 17, 17, 0.5); transition: none; }
 
+/* Education: grouped course lists */
+.paths.courses { gap: 14px; margin-top: 10px; }
+.paths.courses li { align-items: flex-start; }
+.paths.courses li > img, .paths.courses li > svg { margin-top: 1px; }
+.paths.courses .sub { display: block; color: var(--soft); font-size: 15px; line-height: 1.5; margin-top: 2px; }
+.edu .more { margin-top: 12px; color: var(--soft); font-size: 15px; }
+.edu .marks img.wide[height="30"] { height: 30px; }
+
