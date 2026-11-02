@@ -325,4 +325,5 @@ a, button { touch-action: manipulation; }
 .paths.courses .sub { display: block; color: var(--soft); font-size: 15px; line-height: 1.5; margin-top: 2px; }
 .edu .more { margin-top: 12px; color: var(--soft); font-size: 15px; }
 .edu .marks img.wide[height="30"] { height: 30px; }
-
+.made { margin-top: 14px; font-size: 14px; }
+.made a { color: var(--soft); }
