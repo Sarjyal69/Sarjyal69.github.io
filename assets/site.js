@@ -90,5 +90,5 @@
     el.classList.add("ripple");
   }
   rippleOnce(document.querySelector(".next"), "sa-ripple-home");
-  window.rippleOnce = rippleOnce;
+  rippleOnce(document.getElementById("apps"), "sa-ripple-skills");
 })();

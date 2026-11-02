@@ -26,3 +26,5 @@ A dashed box marks the LinkedIn link, which still needs adding.
 Logos and brand names belong to their respective owners and are shown only to indicate tools used; no endorsement is implied. Icons come from [Iconify's Logos set](https://github.com/gilbarbara/logos) by Gil Barbara (CC0), [Devicon](https://github.com/devicons/devicon) (MIT) and [Simple Icons](https://github.com/simple-icons/simple-icons) (CC0).
 
 Logos for IPinfo, HighLevel, Blotato, RepliQ, ServiceNow, CapCut, Higgsfield, Runway, Screen Studio, Supercut, Charles Darwin University, NIT, the Australian Computer Society, Skillsoft, ISC2, CompTIA and ISACA are each organisation's own site icon or logo, taken from their official websites and stored in `assets/logos/`. They remain the property of their owners.
+
+Fonts: Atkinson Hyperlegible Next (Braille Institute) and Bricolage Grotesque (Mathieu Triay), both under the SIL Open Font License, self-hosted in assets/fonts.

@@ -28,6 +28,11 @@
   var GREETING = "Hi! I can help you find your way around Shuvang's portfolio. What would you like to know?";
   var FALLBACK = "Sorry, I can only answer questions about this site. Try one of the buttons below, or email " + MAIL + ".";
 
+  function htmlFor(id) {
+    if (id === "greeting") return GREETING;
+    for (var i = 0; i < ANSWERS.length; i++) if (ANSWERS[i].id === id) return ANSWERS[i].html;
+    return FALLBACK;
+  }
   function answerFor(text) {
     var words = text.toLowerCase().replace(/[^a-zà-ÿ'\s]/g, " ").split(/\s+/), best = null, bestScore = 0;
     ANSWERS.forEach(function (a) {
@@ -35,7 +40,7 @@
       words.forEach(function (w) { if (w && a.words.indexOf(w.replace(/'s$/, "")) !== -1) score++; });
       if (score > bestScore) { best = a; bestScore = score; }
     });
-    return best ? best.html : FALLBACK;
+    return best ? best.id : "fallback";
   }
 
   // shortcut: history lives in sessionStorage, so it lasts for the visit only and is lost where storage is blocked
@@ -75,9 +80,10 @@
   function add(who, html, store) {
     var m = document.createElement("div");
     m.className = "msg " + who;
-    if (who === "you") m.textContent = html; else m.innerHTML = html;
+    // visitor text is only ever shown as plain text; bot replies come from the fixed answers above by id
+    if (who === "you") m.textContent = html; else m.innerHTML = htmlFor(html);
     log.appendChild(m); log.scrollTop = log.scrollHeight;
-    if (store !== false) { history.push({ who: who, html: html }); save(); }
+    if (store !== false) { history.push(who === "you" ? { who: who, text: html } : { who: who, id: html }); save(); }
   }
   function ask(text) {
     text = text.trim(); if (!text) return;
@@ -88,12 +94,13 @@
     if (!a.label) return;
     var b = document.createElement("button");
     b.type = "button"; b.textContent = a.label;
-    b.addEventListener("click", function () { add("you", a.label); add("bot", a.html); input.focus(); });
+    b.addEventListener("click", function () { add("you", a.label); add("bot", a.id); input.focus(); });
     chips.appendChild(b);
   });
 
-  if (history.length) history.forEach(function (m) { add(m.who, m.html, false); });
-  else add("bot", GREETING);
+  history = history.filter(function (m) { return typeof (m.who === "you" ? m.text : m.id) === "string"; });
+  if (history.length) history.forEach(function (m) { add(m.who, m.who === "you" ? m.text : m.id, false); });
+  else add("bot", "greeting");
 
   /* ---------- The eye follows the cursor or finger, and blinks now and then ---------- */
   var iris = fab.querySelector(".iris"), lid = fab.querySelector(".lid"), target = null, queued = false;
@@ -183,7 +190,7 @@
       if (PICKS.indexOf(a.id) === -1) return;
       var btn = document.createElement("button");
       btn.type = "button"; btn.textContent = a.label;
-      btn.addEventListener("click", function () { open(); add("you", a.label); add("bot", a.html); });
+      btn.addEventListener("click", function () { open(); add("you", a.label); add("bot", a.id); });
       picks.appendChild(btn);
     });
     card.querySelector(".hello-more").addEventListener("click", function () { open(); });
