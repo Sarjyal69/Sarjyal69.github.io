@@ -34,3 +34,7 @@ Logos and brand names belong to their owners and are shown only to name where I 
 - Icons from [Iconify's Logos set](https://github.com/gilbarbara/logos) by Gil Barbara (CC0), [Devicon](https://github.com/devicons/devicon) (MIT) and [Simple Icons](https://github.com/simple-icons/simple-icons) (CC0), including the McDonald's, GitHub and Coursera marks.
 - Logos for IPinfo, HighLevel, Blotato, RepliQ, ServiceNow, CapCut, Higgsfield, Runway, Screen Studio, Supercut, Charles Darwin University, NIT, the Australian Computer Society, ISC2, CompTIA, ISACA, Nando's and GovHack are each organisation's own icon or logo, taken from their official websites. The Skillsoft wordmark and the DGK Business Consultancy logo were supplied by me.
 - Fonts: Atkinson Hyperlegible Next (Braille Institute) and Bricolage Grotesque (Mathieu Triay), both under the SIL Open Font License, self-hosted in `assets/fonts`.
+
+## Intro video
+
+`assets/linkedin-intro.mp4` is a 27-second LinkedIn intro, also shown on the Contact page. Its source is in `video/` (a [HyperFrames](https://github.com/heygen-com/hyperframes) project): edit `video/compositions/film.html`, then run `npx hyperframes render` inside `video/`.

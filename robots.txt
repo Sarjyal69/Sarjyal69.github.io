@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /video/
 Sitemap: https://sarjyal69.github.io/sitemap.xml

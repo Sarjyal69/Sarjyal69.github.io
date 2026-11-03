@@ -428,3 +428,9 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 @keyframes line-wipe { from { clip-path: inset(0 0 100% 0); transform: translateY(0.35em); } to { clip-path: inset(0 0 -0.2em 0); transform: none; } }
 
 @media (max-width: 520px) { .timeline .role { padding-left: 20px; } .timeline .role::after { width: 10px; height: 10px; } .timeline .role::before { left: 4px; } }
+
+/* Contact: intro video */
+.intro-video { margin: 36px 0 0; max-width: 480px; }
+.intro-video video { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+.intro-video figcaption { margin-top: 10px; font-size: 14px; color: var(--soft); }
+
