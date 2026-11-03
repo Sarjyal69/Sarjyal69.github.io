@@ -439,11 +439,6 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 .hero .btn, .cta-btn, .chat-fab { transition-property: translate, transform, background-color, border-color, color, box-shadow; transition-duration: 260ms; transition-timing-function: var(--ease-out); }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Page-change sweep: the old page drops away, a blue panel shows, the new page wipes in from the left */
-  ::view-transition-image-pair(root) { background: var(--accent); }
-  ::view-transition-old(root) { animation: vt-out 180ms ease-in both; }
-  ::view-transition-new(root) { animation: vt-wipe 520ms var(--ease-out) 120ms both; }
-
   /* Card and logo hover */
   @media (hover: hover) {
     .co, .edu .marks img { transition: transform 200ms var(--ease-out), box-shadow 200ms; }
@@ -453,7 +448,5 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
     .alist li:hover svg, .alist li:hover img { animation: logo-wiggle 420ms var(--ease-out); }
   }
 }
-@keyframes vt-out { to { opacity: 0; } }
-@keyframes vt-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes logo-wiggle { 25% { transform: rotate(-8deg) scale(1.08); } 60% { transform: rotate(6deg) scale(1.08); } }
 @media (prefers-reduced-motion: reduce) { .rv .w > span { transform: none; } .hero .btn, .cta-btn, .chat-fab { transition-duration: 0ms; } }
