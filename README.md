@@ -2,7 +2,7 @@
 
 Live site: https://sarjyal69.github.io
 
-A plain, readable portfolio for IT support and helpdesk roles in Darwin, NT, across six pages: home, experience, how I work, skills, education and contact.
+A plain, readable portfolio for IT roles in Darwin, NT, across six pages: home, experience, how I work, skills, education and contact.
 
 - **Home:** my name, a one-line pitch, a few real figures, and my portrait as a black-and-white terminal window (with a button to see the real photo).
 - **Experience and How I work:** my roles and four problems I solved, told as situation, task, action and result.
