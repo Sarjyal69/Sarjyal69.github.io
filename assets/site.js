@@ -142,18 +142,40 @@
     onScroll();
   }
 
-  /* ---------- Footer: name signature rises in; back to top ---------- */
+  /* ---------- Footer: contents fade up; back to top ---------- */
   var band = document.querySelector("footer.band");
   if (band && !reduce) {
     var parts = band.querySelectorAll(".reveal");
     [].forEach.call(parts, function (el, n) { el.style.setProperty("--i", n); el.classList.add("pre"); });
     onView(band.querySelector(".cta") || band, function () { [].forEach.call(parts, function (el) { el.classList.add("in"); }); });
   }
-  var sig = document.querySelector(".sig");
-  if (sig && !reduce) { sig.classList.add("pre"); onView(sig, function () { sig.classList.add("in"); }); }
   var toTop = document.querySelector(".to-top");
   if (toTop) toTop.addEventListener("click", function () {
     window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
     var home = document.querySelector(".nav .name"); if (home) home.focus({ preventScroll: true });
   });
+
+  /* ---------- Headings slide up word by word as they scroll into view ---------- */
+  if (!reduce) [].forEach.call(document.querySelectorAll("main h1:not(.hero h1), main h2, .sec-head h1"), function (h) {
+    if (h.children.length) return; // only plain-text headings
+    var words = h.textContent.trim().split(/\s+/);
+    h.innerHTML = words.map(function (w, i) { return '<span class="w"><span style="--i:' + i + '">' + w + "</span></span>"; }).join(" ");
+    h.classList.add("rv");
+    onView(h, function () { h.classList.add("in"); });
+  });
+
+  /* ---------- Magnetic buttons: lean toward a nearby mouse, spring back when it leaves ---------- */
+  if (!reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    var pt = null, queuedM = false;
+    var pull = function () {
+      queuedM = false;
+      [].forEach.call(document.querySelectorAll(".hero .btn, .cta-btn, .chat-fab:not(.dragging)"), function (el) {
+        var r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        var dx = pt.x - cx, dy = pt.y - cy, reach = Math.max(r.width, r.height) / 2 + 60, d = Math.hypot(dx, dy);
+        var cap = function (v, m) { return Math.max(-m, Math.min(m, v)).toFixed(1) + "px"; };
+        el.style.translate = d < reach ? cap(dx * 0.22, 10) + " " + cap(dy * 0.3, 8) : "";
+      });
+    };
+    window.addEventListener("pointermove", function (e) { pt = { x: e.clientX, y: e.clientY }; if (!queuedM) { queuedM = true; requestAnimationFrame(pull); } }, { passive: true });
+  }
 })();

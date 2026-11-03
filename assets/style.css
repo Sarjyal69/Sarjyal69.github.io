@@ -338,13 +338,12 @@ a, button { touch-action: manipulation; }
 
 @media (prefers-reduced-motion: reduce) {
   .nav, .nav-ink.ready, .foot-links a, .to-top span { transition: none; }
-  .sig.pre { transform: none; opacity: 1; }
 }
 
 /* ---------- Footer: dark "Let's talk" band ---------- */
 footer.band .wrap { container-type: inline-size; }
 footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link: #7aa2ff;
-  background: #111111; color: var(--f-soft); font-size: 15px; padding: 72px 0 0; overflow: hidden; border-top: 0; }
+  background: #111111; color: var(--f-soft); font-size: 15px; padding: 72px 0 8px; overflow: hidden; border-top: 0; }
 .band h2, .band h3 { color: var(--f-text); }
 .band a { color: var(--f-text); }
 .band :focus-visible { outline-color: var(--f-link); }
@@ -374,9 +373,6 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 .band .to-top span { display: inline-block; margin-left: 4px; transition: transform 200ms var(--ease-out); }
 .band .to-top:hover { border-color: var(--f-text); }
 .band .to-top:hover span { transform: translateY(-3px); }
-.band .sig { font: 800 18.5cqi/1 var(--display); font-variation-settings: "wdth" 88; letter-spacing: -0.035em; color: transparent; -webkit-text-stroke: 1.2px #3a3a3a; white-space: nowrap; margin: 12px 0 0; padding-bottom: 0.08em; text-align: center; user-select: none; }
-.band .sig.pre { transform: translateY(40%); opacity: 0; }
-.band .sig.pre.in { transform: none; opacity: 1; transition: transform 900ms var(--ease-out), opacity 700ms var(--ease-out); }
 .band .reveal.pre { opacity: 0; transform: translateY(14px); }
 .band .reveal.pre.in { opacity: 1; transform: none; transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out); transition-delay: calc(var(--i, 0) * 90ms); }
 @media (min-width: 760px) {
@@ -391,14 +387,12 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 }
 @media (max-width: 520px) {
   footer.band { padding-top: 56px; }
-  .band .sig { font-size: 17.2cqi; }
-  .cta-actions { flex-direction: column; align-items: stretch; }
+    .cta-actions { flex-direction: column; align-items: stretch; }
   .cta-mail { justify-content: space-between; }
   .band .cta-btn { justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .band .reveal.pre, .band .sig.pre { opacity: 1; transform: none; }
-  .cta-btn span, .band .to-top span, .foot-cols a, .copy-mail { transition: none; }
+  .band .reveal.pre,   .cta-btn span, .band .to-top span, .foot-cols a, .copy-mail { transition: none; }
 }
 
 /* ---------- Scroll-linked motion (CSS only; runs where scroll timelines are supported, still elsewhere) ---------- */
@@ -434,3 +428,32 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 .intro-video video { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
 .intro-video figcaption { margin-top: 10px; font-size: 14px; color: var(--soft); }
 
+
+/* ---------- More motion ---------- */
+/* Heading reveals: words rise from behind an invisible line */
+.rv .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.12em; margin-bottom: -0.12em; }
+.rv .w > span { display: inline-block; transform: translateY(110%); }
+.rv.in .w > span { transform: none; transition: transform 560ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
+
+/* Magnetic buttons spring back smoothly */
+.hero .btn, .cta-btn, .chat-fab { transition-property: translate, transform, background-color, border-color, color, box-shadow; transition-duration: 260ms; transition-timing-function: var(--ease-out); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Page-change sweep: the old page drops away, a blue panel shows, the new page wipes in from the left */
+  ::view-transition-image-pair(root) { background: var(--accent); }
+  ::view-transition-old(root) { animation: vt-out 180ms ease-in both; }
+  ::view-transition-new(root) { animation: vt-wipe 520ms var(--ease-out) 120ms both; }
+
+  /* Card and logo hover */
+  @media (hover: hover) {
+    .co, .edu .marks img { transition: transform 200ms var(--ease-out), box-shadow 200ms; }
+    .role:hover .co, .edu:hover .marks img { transform: translateY(-3px); box-shadow: 0 10px 22px -12px rgba(17, 17, 17, 0.45); }
+    .paths.courses li { padding: 10px 12px; margin-inline: -12px; border-radius: 12px; transition: background-color 200ms, transform 200ms var(--ease-out), box-shadow 200ms; }
+    .paths.courses li:hover { background: #f6f7f9; transform: translateY(-2px); box-shadow: 0 10px 24px -18px rgba(17, 17, 17, 0.5); }
+    .alist li:hover svg, .alist li:hover img { animation: logo-wiggle 420ms var(--ease-out); }
+  }
+}
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes logo-wiggle { 25% { transform: rotate(-8deg) scale(1.08); } 60% { transform: rotate(6deg) scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .rv .w > span { transform: none; } .hero .btn, .cta-btn, .chat-fab { transition-duration: 0ms; } }
