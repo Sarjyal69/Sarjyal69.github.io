@@ -1,18 +1,23 @@
 (function () {
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  /* ---------- Copy email ---------- */
-  var copy = document.getElementById("copy-btn");
-  if (copy) copy.addEventListener("click", function () {
-    function label(text) { copy.innerHTML = '<span class="lbl in">' + text + "</span>"; }
+  /* ---------- Copy email: Contact page button and the footer's Copy button share one helper ---------- */
+  var EMAIL = "sarjyal69@protonmail.com";
+  function copyEmail(btn, rest, textEl) {
+    function label(text) { btn.innerHTML = '<span class="lbl in">' + text + "</span>"; }
     function done() {
-      copy.style.minWidth = copy.offsetWidth + "px"; // keep the button the same width while the label changes
+      btn.style.minWidth = btn.offsetWidth + "px"; // keep the button the same width while the label changes
       label("Copied");
-      var addr = document.getElementById("mail-addr"); addr.classList.remove("flash"); void addr.offsetWidth; addr.classList.add("flash");
-      setTimeout(function () { label("Copy email"); }, 1500);
+      if (textEl && textEl.id === "mail-addr") { textEl.classList.remove("flash"); void textEl.offsetWidth; textEl.classList.add("flash"); }
+      setTimeout(function () { label(rest); }, 1500);
     }
-    function sel() { var r = document.createRange(); r.selectNodeContents(document.getElementById("mail-addr")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
-    try { navigator.clipboard.writeText("sarjyal69@protonmail.com").then(done, sel); } catch (e) { sel(); }
+    function sel() { if (!textEl) return; var r = document.createRange(); r.selectNodeContents(textEl); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    try { navigator.clipboard.writeText(EMAIL).then(done, sel); } catch (e) { sel(); }
+  }
+  var copy = document.getElementById("copy-btn");
+  if (copy) copy.addEventListener("click", function () { copyEmail(copy, "Copy email", document.getElementById("mail-addr")); });
+  [].forEach.call(document.querySelectorAll(".copy-mail"), function (btn) {
+    btn.addEventListener("click", function () { copyEmail(btn, "Copy", btn.parentNode.querySelector(".foot-email")); });
   });
 
   /* ---------- Portrait: switch between the green terminal version and the real photo ---------- */
@@ -138,6 +143,12 @@
   }
 
   /* ---------- Footer: name signature rises in; back to top ---------- */
+  var band = document.querySelector("footer.band");
+  if (band && !reduce) {
+    var parts = band.querySelectorAll(".reveal");
+    [].forEach.call(parts, function (el, n) { el.style.setProperty("--i", n); el.classList.add("pre"); });
+    onView(band.querySelector(".cta") || band, function () { [].forEach.call(parts, function (el) { el.classList.add("in"); }); });
+  }
   var sig = document.querySelector(".sig");
   if (sig && !reduce) { sig.classList.add("pre"); onView(sig, function () { sig.classList.add("in"); }); }
   var toTop = document.querySelector(".to-top");
