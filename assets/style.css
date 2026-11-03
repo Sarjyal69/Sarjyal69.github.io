@@ -73,7 +73,7 @@ h1, h2, h3 { margin: 0; color: var(--head); font-family: var(--display); font-we
 section { border-top: 1px solid var(--line); padding: 64px 0; }
 .sec { display: grid; gap: 20px 64px; }
 @media (min-width: 860px) { .sec { grid-template-columns: 220px minmax(0, 1fr); } }
-.sec > h2, .sec-head h2 { font-size: 28px; line-height: 1.2; letter-spacing: -0.01em; }
+.sec > h2, .sec-head h2, .sec > h1, .sec-head h1 { font-size: 28px; line-height: 1.2; letter-spacing: -0.01em; }
 .body { max-width: 68ch; }
 .body > p + p { margin-top: 14px; }
 
