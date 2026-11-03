@@ -401,3 +401,30 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
   .cta-btn span, .band .to-top span, .foot-cols a, .copy-mail { transition: none; }
 }
 
+/* ---------- Scroll-linked motion (CSS only; runs where scroll timelines are supported, still elsewhere) ---------- */
+.cta-title .ln { display: block; }
+.timeline .role { position: relative; padding-left: 28px; }
+.timeline .role::before { content: ""; position: absolute; left: 5px; top: 30px; bottom: -44px; width: 2px; background: var(--line); transform-origin: top; }
+.timeline .role:last-of-type::before { bottom: 0; }
+.timeline .role::after { content: ""; position: absolute; left: 0; top: 18px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--line); box-sizing: border-box; }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* 1. Experience: the line draws down each role and its dot lights up as the role reaches the middle */
+    .timeline .role::before { background: var(--accent); animation: line-draw linear both; animation-timeline: view(); animation-range: entry 30% cover 55%; }
+    .timeline .role::after { animation: dot-on linear both; animation-timeline: view(); animation-range: cover 30% cover 40%; }
+    /* 2. How I work: each Situation, Task, Action, Result label lights up as it passes the middle of the screen */
+    .story dt { animation: label-pass linear both; animation-timeline: view(); animation-range: cover 20% cover 80%; }
+    /* 3. Home: the terminal portrait drifts up a little slower than the page as you scroll away */
+    @media (min-width: 860px) { .term-wrap { animation: drift linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; } }
+    /* 4. Footer: the call to action wipes in line by line */
+    .cta-title .ln { animation: line-wipe linear both; animation-timeline: view(); animation-range: entry 20% entry 80%; }
+    .cta-title .ln + .ln { animation-range: entry 45% entry 100%; }
+  }
+}
+@keyframes line-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes dot-on { to { background: var(--accent); border-color: var(--accent); } }
+@keyframes label-pass { 0% { color: var(--soft); } 35%, 65% { color: var(--accent); } 100% { color: var(--ink); } }
+@keyframes drift { to { transform: translateY(-48px); } }
+@keyframes line-wipe { from { clip-path: inset(0 0 100% 0); transform: translateY(0.35em); } to { clip-path: inset(0 0 -0.2em 0); transform: none; } }
+
+@media (max-width: 520px) { .timeline .role { padding-left: 20px; } .timeline .role::after { width: 10px; height: 10px; } .timeline .role::before { left: 4px; } }
