@@ -13,6 +13,10 @@ Four years running shifts at McDonald's and Nando's, fixing kiosks, POS terminal
 - [Education](https://sarjyal69.github.io/education.html): degree, ACS Professional Year, verified courses and certificates
 - [Contact](https://sarjyal69.github.io/contact.html): email and LinkedIn
 
+## Optional
+
+- [Privacy](https://sarjyal69.github.io/privacy.html): what the site stores and does not collect
+
 ## Contact
 
 - [Email](mailto:sarjyal69@protonmail.com)

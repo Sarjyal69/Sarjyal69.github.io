@@ -38,3 +38,7 @@ Logos and brand names belong to their owners and are shown only to name where I 
 ## Intro video
 
 `assets/linkedin-intro.mp4` is a 27-second LinkedIn intro, also shown on the Contact page. Its source is in `video/` (a [HyperFrames](https://github.com/heygen-com/hyperframes) project): edit `video/compositions/film.html`, then run `npx hyperframes render` inside `video/`.
+
+## Privacy
+
+`privacy.html` explains what the site stores (session storage only, no cookies) and what it does not collect. It must be updated before any analytics is turned on.
