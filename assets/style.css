@@ -478,3 +478,10 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 /* Icons above the home-page figures */
 .figs .fig-ico { display: block; width: 52px; height: 52px; margin-bottom: 16px; stroke-width: 4.5; }
 
+/* "Email me" service picker */
+.mail-menu { position: absolute; z-index: 30; min-width: 220px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 18px 40px -16px rgba(17, 17, 17, 0.45); display: grid; animation: menu-in 160ms var(--ease-out); }
+.mail-menu a { display: block; padding: 11px 14px; border-radius: 8px; color: #111; text-decoration: none; font-size: 16px; font-weight: 700; }
+.mail-menu a:hover, .mail-menu a:focus-visible { background: #eef2ff; color: var(--accent); outline: none; }
+@keyframes menu-in { from { opacity: 0; transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .mail-menu { animation: none; } }
+

@@ -184,4 +184,50 @@
     };
     window.addEventListener("pointermove", function (e) { pt = { x: e.clientX, y: e.clientY }; if (!queuedM) { queuedM = true; requestAnimationFrame(pull); } }, { passive: true });
   }
+
+  /* ---------- "Email me": let visitors pick their own email service ---------- */
+  var SUBJECT = "Hello from your portfolio";
+  var MAIL_OPTS = [
+    ["Gmail", "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(EMAIL) + "&su=" + encodeURIComponent(SUBJECT)],
+    ["Outlook", "https://outlook.live.com/mail/0/deeplink/compose?to=" + encodeURIComponent(EMAIL) + "&subject=" + encodeURIComponent(SUBJECT)],
+    ["Yahoo Mail", "https://compose.mail.yahoo.com/?to=" + encodeURIComponent(EMAIL) + "&subject=" + encodeURIComponent(SUBJECT)],
+    ["Your email app", "mailto:" + EMAIL + "?subject=" + encodeURIComponent(SUBJECT)]
+  ];
+  var openMenu = null;
+  function closeMailMenu(focusBack) {
+    if (!openMenu) return;
+    var m = openMenu; openMenu = null;
+    m.trigger.setAttribute("aria-expanded", "false"); m.el.remove();
+    if (focusBack) m.trigger.focus();
+  }
+  [].forEach.call(document.querySelectorAll(".mail-pick"), function (trigger) {
+    trigger.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (openMenu && openMenu.trigger === trigger) { closeMailMenu(true); return; }
+      closeMailMenu(false);
+      var menu = document.createElement("div");
+      menu.className = "mail-menu"; menu.setAttribute("role", "menu"); menu.setAttribute("aria-label", "Choose how to email");
+      menu.innerHTML = MAIL_OPTS.map(function (o) {
+        var web = o[1].indexOf("http") === 0;
+        return '<a role="menuitem" href="' + o[1] + '"' + (web ? ' target="_blank" rel="noopener noreferrer"' : "") + ">" + o[0] + (web ? '<span class="sr-only"> (opens in a new tab)</span>' : "") + "</a>";
+      }).join("");
+      trigger.parentNode.style.position = "relative";
+      trigger.insertAdjacentElement("afterend", menu);
+      var r = trigger.getBoundingClientRect(), pr = trigger.parentNode.getBoundingClientRect();
+      // open to the left of the button when there is no room on the right
+      menu.style.left = Math.max(0, r.left + menu.offsetWidth > Math.min(pr.right, innerWidth - 12) ? r.right - pr.left - menu.offsetWidth : r.left - pr.left) + "px";
+      menu.style.top = (r.bottom - pr.top + 8) + "px";
+      trigger.setAttribute("aria-expanded", "true");
+      openMenu = { trigger: trigger, el: menu };
+      menu.querySelector("a").focus();
+      menu.addEventListener("click", function () { closeMailMenu(false); });
+      menu.addEventListener("keydown", function (ev) {
+        var items = [].slice.call(menu.querySelectorAll("a")), i = items.indexOf(document.activeElement);
+        if (ev.key === "Escape") { ev.preventDefault(); closeMailMenu(true); }
+        else if (ev.key === "ArrowDown") { ev.preventDefault(); items[(i + 1) % items.length].focus(); }
+        else if (ev.key === "ArrowUp") { ev.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+      });
+    });
+  });
+  document.addEventListener("click", function (e) { if (openMenu && !openMenu.el.contains(e.target) && e.target !== openMenu.trigger && !openMenu.trigger.contains(e.target)) closeMailMenu(false); });
 })();
