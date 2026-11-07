@@ -93,7 +93,7 @@
     svg.classList.add("draw");
     onView(svg, function () { svg.classList.add("in"); });
     // pointing at the drawing's heading or card makes it sketch itself again
-    var host = svg.closest(".sec-head, .skills > div, .story") || svg;
+    var host = svg.closest(".sec-head, .skills > div, .story, .figs li") || svg;
     if (window.matchMedia("(hover: hover)").matches) host.addEventListener("mouseenter", function () {
       if (!svg.classList.contains("in")) return;
       svg.classList.remove("in"); void svg.getBoundingClientRect(); svg.classList.add("in");

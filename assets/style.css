@@ -475,3 +475,6 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 .nav .name .logo { width: 40px; height: 40px; border-radius: 10px; flex: none; transition: transform 200ms var(--ease-out); }
 .nav .name:hover .logo { transform: rotate(-4deg) scale(1.05); }
 
+/* Icons above the home-page figures */
+.figs .fig-ico { display: block; width: 52px; height: 52px; margin-bottom: 16px; stroke-width: 4.5; }
+
