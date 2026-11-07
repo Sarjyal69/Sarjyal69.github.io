@@ -462,3 +462,10 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 .prose li + li { margin-top: 6px; }
 .prose p + p, .prose ul + p { margin-top: 12px; }
 
+/* Icons and logos link to their official sites */
+.alist a { display: inline-flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; }
+.alist a:hover, .alist a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.logo-link { display: inline-block; line-height: 0; border-radius: 6px; }
+.logo-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.edu .marks .logo-link { display: block; }
