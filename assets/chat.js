@@ -55,8 +55,9 @@
 
   var EYE_SHAPE = "M3 20C8.5 11 14 7.5 20 7.5S31.5 11 37 20C31.5 29 26 32.5 20 32.5S8.5 29 3 20z";
   var EYE = '<svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><clipPath id="eye-clip"><path d="' + EYE_SHAPE + '"/></clipPath></defs>' +
-    '<g class="lid"><path d="' + EYE_SHAPE + '" fill="#fff"/><g clip-path="url(#eye-clip)"><g class="iris"><circle cx="20" cy="20" r="8.5" class="iris-ring"/><circle cx="20" cy="20" r="4" fill="#111"/><circle cx="22.4" cy="17.6" r="1.4" fill="#fff"/></g></g>' +
-    '<path d="' + EYE_SHAPE + '" fill="none" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/></g></svg>';
+    '<g class="lid"><path d="' + EYE_SHAPE + '" fill="#fff"/><g clip-path="url(#eye-clip)"><g class="iris"><circle cx="20" cy="20" r="8.5" class="iris-ring"/><path d="M25.60 20.00L27.40 20.00 M23.96 23.96L25.23 25.23 M20.00 25.60L20.00 27.40 M16.04 23.96L14.77 25.23 M14.40 20.00L12.60 20.00 M16.04 16.04L14.77 14.77 M20.00 14.40L20.00 12.60 M23.96 16.04L25.23 14.77" stroke="#9db5ff" stroke-width="0.8" stroke-linecap="round"/><circle cx="20" cy="20" r="4" fill="#111"/><circle cx="22.4" cy="17.6" r="1.5" fill="#fff"/><circle cx="18.2" cy="22.3" r="0.7" fill="#fff" opacity="0.75"/></g></g>' +
+    '<path d="' + EYE_SHAPE + '" fill="none" stroke="#111" stroke-width="2.2" stroke-linejoin="round"/>' +
+    '<path d="M9 10.6c3.2-2.9 6.9-4.4 11-4.4s7.8 1.5 11 4.4" fill="none" stroke="#111" stroke-width="1.3" stroke-linecap="round" opacity="0.35"/></g></svg>';
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var fab = document.createElement("button");
