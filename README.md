@@ -45,4 +45,4 @@ Logos and brand names belong to their owners and are shown only to name where I 
 
 ## Logo
 
-The `>SA` mark (a terminal prompt with my initials) is in `assets/brand/`: dark, light and transparent versions as SVG and 1024 px PNG. The site uses it as the favicon and beside my name in the header.
+The `>SA` mark (a terminal prompt with my initials) is in `assets/brand/`: dark, light and transparent versions as SVG and 1024 px PNG. The site uses it as the header logo (linking home); the refined eye is the browser-tab and phone icon.
