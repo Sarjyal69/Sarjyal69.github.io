@@ -19,7 +19,7 @@
     { id: "contact", label: "How do I contact him?", words: ["contact", "email", "mail", "phone", "call", "reach", "hire", "message", "talk", "interview", "linkedin"],
       html: "Email " + MAIL + '. The <a href="contact.html">Contact page</a> has a copy-email button. His phone number and referees are shared on request by email. You can also <a href="https://www.linkedin.com/in/shuv-arjyal-580143424/" target="_blank" rel="noopener noreferrer">connect on LinkedIn</a>.' },
     { id: "available", label: "Is he available?", words: ["available", "availability", "start", "visa", "rights", "when", "where", "location", "located", "darwin", "based", "live", "relocate"],
-      html: 'Yes. He is based in Darwin, NT, has full work rights, and is available to start now. <a href="contact.html">Get in touch</a>' },
+      html: 'Yes. He is based in Darwin, NT, has full work rights, and is available to start now. He is looking for an entry-level IT role, in the NT Government or a private business. <a href="contact.html">Get in touch</a>' },
     { id: "resume", label: "Can I get his résumé?", words: ["resume", "résumé", "cv", "referee", "referees", "reference", "references"],
       html: 'His résumé and referees are available on request. Email <a href="mailto:' + EMAIL + '?subject=R%C3%A9sum%C3%A9%20request">' + EMAIL + "</a> and he'll send them." },
     { id: "hello", words: ["hi", "hello", "hey", "gday", "g'day", "morning", "afternoon"],
