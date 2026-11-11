@@ -114,11 +114,21 @@
     iris.setAttribute("transform", "translate(" + (dx / d * 6 * k).toFixed(2) + " " + (dy / d * 3.5 * k).toFixed(2) + ")");
   }
   function follow(e) {
-    var p = e.touches ? e.touches[0] : e; if (!p) return;
+    var p = e.touches ? e.touches[0] : e; if (!p || Date.now() < glanceUntil) return;
     target = { x: p.clientX, y: p.clientY };
     if (!queued) { queued = true; requestAnimationFrame(look); }
   }
+  var glanceUntil = 0;
   if (!reduce) {
+    // reactions: the eye widens over anything clickable, and glances at the email when it is copied
+    document.addEventListener("pointerover", function (e) {
+      var t = e.pointerType === "mouse" && e.target.closest && e.target.closest("a, button");
+      fab.classList.toggle("wide", !!t && t !== fab);
+    }, { passive: true });
+    document.addEventListener("sa-copied", function (e) {
+      glanceUntil = Date.now() + 900; target = e.detail;
+      if (!queued) { queued = true; requestAnimationFrame(look); }
+    });
     window.addEventListener("pointermove", follow, { passive: true });
     window.addEventListener("pointerdown", follow, { passive: true });
     window.addEventListener("touchstart", follow, { passive: true });
@@ -242,6 +252,7 @@
 
   function open() {
     hideCard();
+    if (!reduce) { fab.classList.add("happy"); setTimeout(function () { fab.classList.remove("happy"); }, 460); } // a quick happy double blink
     panel.hidden = false; place(panel); fab.setAttribute("aria-expanded", "true"); fab.setAttribute("aria-label", "Close site helper"); fab.classList.add("on");
     log.scrollTop = log.scrollHeight; input.focus();
   }

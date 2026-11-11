@@ -3,11 +3,14 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   /* ---------- Copy email: Contact page button and the footer's Copy button share one helper ---------- */
   var EMAIL = "sarjyal69@protonmail.com";
+  var TICK = '<svg class="tick" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 8.5l3.5 3.5L13 4.5"/></svg>';
   function copyEmail(btn, rest, textEl) {
     function label(text) { btn.innerHTML = '<span class="lbl in">' + text + "</span>"; }
     function done() {
       btn.style.minWidth = btn.offsetWidth + "px"; // keep the button the same width while the label changes
-      label("Copied");
+      label(TICK.replace('"tick"', '"tick go"') + "Copied");
+      var br = btn.getBoundingClientRect(); // the site helper's eye glances at the button
+      document.dispatchEvent(new CustomEvent("sa-copied", { detail: { x: br.left + br.width / 2, y: br.top + br.height / 2 } }));
       if (textEl && textEl.id === "mail-addr") { textEl.classList.remove("flash"); void textEl.offsetWidth; textEl.classList.add("flash"); }
       setTimeout(function () { label(rest); }, 1500);
     }
@@ -60,10 +63,10 @@
   }
 
   /* ---------- Figures: run something once when it scrolls into view ---------- */
-  function onView(el, fn) {
+  function onView(el, fn, at) {
     if (!el) return;
     if (!("IntersectionObserver" in window)) return fn();
-    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); fn(); } }, { threshold: 0.4 });
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); fn(); } }, { threshold: at == null ? 0.4 : at });
     io.observe(el);
   }
   // number highlights count up from 0; the final numbers are already in the page for screen readers and no-JS
@@ -93,7 +96,7 @@
     svg.classList.add("draw");
     onView(svg, function () { svg.classList.add("in"); });
     // pointing at the drawing's heading or card makes it sketch itself again
-    var host = svg.closest(".sec-head, .skills > div, .story, .figs li") || svg;
+    var host = svg.closest(".sec-head, .skills > div, .story, .figs li, .role, .edu") || svg;
     if (window.matchMedia("(hover: hover)").matches) host.addEventListener("mouseenter", function () {
       if (!svg.classList.contains("in")) return;
       svg.classList.remove("in"); void svg.getBoundingClientRect(); svg.classList.add("in");
@@ -110,7 +113,50 @@
     el.classList.add("ripple");
   }
   rippleOnce(document.querySelector(".next"), "sa-ripple-home");
-  rippleOnce(document.getElementById("apps"), "sa-ripple-skills");
+  // app logos pop in one after another the first time they scroll into view
+  var apps = document.getElementById("apps");
+  if (apps && !reduce && firstTime("sa-ripple-skills")) {
+    [].forEach.call(apps.querySelectorAll("li"), function (li, n) { li.style.setProperty("--i", n); });
+    apps.classList.add("pop-wait");
+    onView(apps.querySelector(".alist") || apps, function () { apps.classList.remove("pop-wait"); apps.classList.add("ripple", "pop"); }, 0.05);
+  }
+
+  /* ---------- List points: a tick that draws itself as each line scrolls in ---------- */
+  [].forEach.call(document.querySelectorAll(".role ul, .want"), function (ul) {
+    ul.classList.add("ticks");
+    [].forEach.call(ul.children, function (li) {
+      li.insertAdjacentHTML("afterbegin", TICK);
+      if (!reduce) { li.classList.add("pre"); onView(li, function () { li.classList.add("in"); }); }
+    });
+  });
+
+  /* ---------- Cards: a soft glow follows the mouse (mouse only) ---------- */
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!reduce && fine) [].forEach.call(document.querySelectorAll(".story, .skills > div"), function (c) {
+    c.classList.add("spot");
+    c.addEventListener("pointermove", function (e) {
+      var r = c.getBoundingClientRect();
+      c.style.setProperty("--mx", (e.clientX - r.left).toFixed(0) + "px"); c.style.setProperty("--my", (e.clientY - r.top).toFixed(0) + "px");
+    }, { passive: true });
+  });
+
+  /* ---------- Header logo: letters scramble like a terminal on hover, then settle ---------- */
+  var brand = document.querySelector(".nav .name");
+  if (brand && !reduce && fine) {
+    var scr = document.createElement("span");
+    scr.className = "scr"; scr.setAttribute("aria-hidden", "true"); scr.innerHTML = "<b>&gt;</b><i>S</i><i>A</i>";
+    brand.appendChild(scr);
+    var cells = scr.children, FINAL = [">", "S", "A"], POOL = "<>/[]{}#$_=+01", scrT = null;
+    brand.addEventListener("mouseenter", function () {
+      if (scrT) return;
+      var n = 0; scr.classList.add("on");
+      scrT = setInterval(function () {
+        n++;
+        for (var i = 0; i < 3; i++) cells[i].textContent = n > 3 + i * 2 ? FINAL[i] : POOL.charAt(Math.floor(Math.random() * POOL.length));
+        if (n > 9) { clearInterval(scrT); scrT = null; scr.classList.remove("on"); }
+      }, 45);
+    });
+  }
 
   /* ---------- Header: sliding highlight, reading progress, lift and tuck-away on scroll ---------- */
   var header = document.querySelector(".nav"), menu = header && header.querySelector("nav");

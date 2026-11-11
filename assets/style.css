@@ -93,13 +93,13 @@ section { border-top: 1px solid var(--line); padding: 64px 0; }
 
 .skills { display: grid; gap: 22px 40px; }
 @media (min-width: 640px) { .skills { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-.skills h3 { font-size: 18px; margin-bottom: 6px; }
+.skills h2 { font-size: 18px; margin-bottom: 6px; }
 .skills p { color: var(--soft); }
 
 .apps { margin-top: 48px; }
-.apps > h3 { font-size: 22px; margin-bottom: 18px; }
+.apps > h2 { font-size: 22px; margin-bottom: 18px; }
 .agroup + .agroup { margin-top: 18px; }
-.agroup h4 { margin: 0 0 8px; font-size: 16px; color: var(--soft); font-weight: 400; }
+.agroup h3 { font-family: inherit; margin: 0 0 8px; font-size: 16px; color: var(--soft); font-weight: 400; }
 .alist { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; }
 .alist li { display: inline-flex; align-items: center; gap: 9px; }
 .alist svg, .alist img { width: 20px; height: 20px; flex: none; border-radius: 4px; }
@@ -479,13 +479,52 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 .figs .fig-ico { display: block; width: 52px; height: 52px; margin-bottom: 16px; stroke-width: 4.5; }
 
 /* "Email me" service picker */
-.mail-menu { position: absolute; z-index: 30; min-width: 220px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 18px 40px -16px rgba(17, 17, 17, 0.45); display: grid; animation: menu-in 160ms var(--ease-out); }
+.mail-menu { position: absolute; z-index: 30; min-width: 220px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 18px 40px -16px rgba(17, 17, 17, 0.45); display: grid; animation: menu-in 200ms var(--ease-out); transform-origin: top left; }
 .mail-menu a { display: block; padding: 11px 14px; border-radius: 8px; color: #111; text-decoration: none; font-size: 16px; font-weight: 700; }
 .mail-menu a:hover, .mail-menu a:focus-visible { background: #eef2ff; color: var(--accent); outline: none; }
-@keyframes menu-in { from { opacity: 0; transform: translateY(-4px); } }
-@media (prefers-reduced-motion: reduce) { .mail-menu { animation: none; } }
+@keyframes menu-in { from { opacity: 0; transform: translateY(-6px) scale(0.94); } }
+.mail-menu a { animation: menu-item 240ms var(--ease-out) both; }
+.mail-menu a:nth-child(2) { animation-delay: 40ms; } .mail-menu a:nth-child(3) { animation-delay: 80ms; } .mail-menu a:nth-child(4) { animation-delay: 120ms; }
+@keyframes menu-item { from { opacity: 0; transform: translateY(-6px); } }
+@media (prefers-reduced-motion: reduce) { .mail-menu, .mail-menu a { animation: none; } }
 
 
 /* What I'm looking for */
 .want { margin: 0; padding-left: 22px; }
 .want li + li { margin-top: 10px; }
+
+/* Ticks that draw themselves: list points and the "Copied" label */
+.ticks, .role ul.ticks { list-style: none; padding-left: 0; }
+.ticks > li { position: relative; padding-left: 28px; }
+.tick { position: absolute; left: 0; top: 0.3em; width: 18px; height: 18px; fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.ticks > li.pre .tick path, .tick.go path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.ticks > li.in .tick path { animation: sketch 450ms var(--ease-out) 120ms forwards; }
+.lbl .tick { position: static; width: 1em; height: 1em; margin-right: 6px; vertical-align: -0.14em; stroke: currentColor; stroke-width: 2.4; }
+.tick.go path { animation: sketch 350ms var(--ease-out) 100ms forwards; }
+@media (prefers-reduced-motion: reduce) { .tick.go path { animation: none; stroke-dashoffset: 0; } }
+
+/* Small icons beside job and course headings */
+.role .ico-h .art.sm, .edu .ico-h .art.sm { width: 40px; height: 40px; }
+
+/* App logos pop in on first view */
+.pop-wait .alist li { opacity: 0; }
+#apps.pop .alist li { animation-name: pop-in; animation-duration: 340ms; }
+@keyframes pop-in { from { opacity: 0; transform: scale(0.8) translateY(6px); } }
+
+/* A soft glow follows the mouse across story and skill cards */
+.spot { position: relative; isolation: isolate; }
+.spot::before { content: ""; position: absolute; inset: -14px -18px; z-index: -1; border-radius: 16px; pointer-events: none; opacity: 0; transition: opacity 250ms; background: radial-gradient(240px circle at calc(var(--mx, 50%) + 18px) calc(var(--my, 50%) + 14px), rgba(29, 78, 216, 0.11), transparent 70%); }
+.spot:hover::before { opacity: 1; }
+
+/* The eye reacts: widens over links and buttons, happy double blink when the chat opens */
+.chat-fab .lid { transition: transform 110ms var(--ease-out); }
+.chat-fab.wide .lid:not(.blink) { transform: scale(1.06, 1.2); }
+.chat-fab.happy .lid { animation: happy 460ms var(--ease-out); }
+@keyframes happy { 0%, 50%, 100% { transform: none; } 22%, 74% { transform: scaleY(0.1); } }
+
+/* Header logo scramble */
+.nav .name { position: relative; }
+.scr { position: absolute; left: 0; top: 50%; width: 40px; height: 40px; margin-top: -20px; border-radius: 10px; background: #111; color: #fff; font: 700 15px/40px var(--display); letter-spacing: -0.02em; text-align: center; pointer-events: none; opacity: 0; transition: opacity 140ms, transform 200ms var(--ease-out); }
+.scr.on { opacity: 1; transition: transform 200ms var(--ease-out); }
+.scr b { color: #7aa2ff; font-weight: 700; } .scr i { font-style: normal; }
+.nav .name:hover .scr { transform: rotate(-4deg) scale(1.05); }
