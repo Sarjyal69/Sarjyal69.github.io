@@ -533,3 +533,13 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 .crit-intro { color: var(--soft); margin-bottom: 18px; }
 .crit li + li { margin-top: 14px; }
 .crit a { white-space: nowrap; margin-left: 4px; }
+
+/* Skills: tools I'm learning next */
+.learning { margin-top: 22px; color: var(--soft); }
+.learning b { color: var(--ink); }
+
+/* How I work: example scenarios */
+.scenario { margin-top: 52px; }
+.scenario .tag { display: inline-block; font-size: 14px; font-weight: 700; color: var(--accent); background: #eef2ff; border-radius: 999px; padding: 3px 10px; margin: 6px 0 14px; }
+.roles { margin-top: 8px; padding-left: 20px; list-style: disc; }
+.roles li + li { margin-top: 4px; }

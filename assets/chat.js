@@ -11,7 +11,7 @@
     { id: "experience", label: "See his experience", words: ["experience", "work", "job", "jobs", "worked", "career", "history", "intern", "internship", "dgk", "mcdonald", "mcdonalds", "nando", "nandos", "manager", "leader", "employ", "govhack", "volunteer", "volunteering", "hackathon"],
       html: 'Shuvang is an IT and Automation Intern at DGK Business Consultancy (since Aug 2026). Since Sep 2022 he has also been a Shift Manager at McDonald\'s and a Shift Leader at Nando\'s, fixing kiosks, POS terminals and printers mid-rush. He also volunteered at GovHack in Darwin (2024 to 2025). <a href="experience.html">Open Experience</a>' },
     { id: "skills", label: "What can he do?", words: ["skill", "skills", "tools", "tool", "apps", "app", "software", "tech", "network", "networking", "support", "troubleshoot", "windows", "microsoft", "python", "automation"],
-      html: 'Support and troubleshooting, systems and networks, tools and automation, and introductory programming. He has used 48 apps and tools, from Microsoft 365 and Active Directory to n8n and Airtable. <a href="skills.html">Open Skills</a>' },
+      html: 'Support and troubleshooting, systems and networks, tools and automation, and introductory programming. He has used 57 apps and tools, from Microsoft 365 and Active Directory to n8n and Airtable. <a href="skills.html">Open Skills</a>' },
     { id: "education", label: "Education", words: ["study", "studied", "degree", "uni", "university", "education", "cdu", "acs", "professional", "year", "certificate", "certificates", "course", "courses", "qualification", "qualifications", "graduate", "skillsoft", "coursera", "google", "badge", "badges"],
       html: 'Bachelor of Information Technology from Charles Darwin University (2025), the ACS Professional Year (ICT) from Oct 2025 to Oct 2026, Google\'s Technical Support Fundamentals on Coursera, and Skillsoft courses including the ISC2 Certified in Cybersecurity learning path and CompTIA Tech+, each with a verified badge. <a href="education.html">Open Education</a>' },
     { id: "how", label: "How he works", words: ["approach", "story", "stories", "example", "examples", "star", "problem", "problems", "fix", "process", "method"],
@@ -225,7 +225,7 @@
     "index": "Hi! I can help you navigate this website.",
     "experience": "This is his work history. Ask me about any job.",
     "how-i-work": "Four real problems he solved. Want the short version?",
-    "skills": "48 apps and tools are listed here. Ask me what he can do.",
+    "skills": "57 apps and tools are listed here. Ask me what he can do.",
     "education": "His degree, courses and certificates. Questions? Just ask.",
     "contact": "Want to get in touch? I can help with that."
   };
