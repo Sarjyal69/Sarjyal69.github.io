@@ -84,7 +84,7 @@ section { border-top: 1px solid var(--line); padding: 64px 0; }
 .role li + li { margin-top: 10px; }
 
 .story + .story { margin-top: 52px; }
-.story h3 { font-size: 22px; }
+.story h3, .story h2 { font-size: 22px; }
 .story .meta { color: var(--soft); margin: 4px 0 16px; }
 .story dl { margin: 0; display: grid; gap: 12px; }
 @media (min-width: 640px) { .story dl { grid-template-columns: 110px minmax(0, 1fr); gap: 12px 20px; } }
@@ -528,3 +528,8 @@ footer.band { --f-text: #f2f2f2; --f-soft: #a8a8a8; --f-line: #2b2b2b; --f-link:
 .scr.on { opacity: 1; transition: transform 200ms var(--ease-out); }
 .scr b { color: #7aa2ff; font-weight: 700; } .scr i { font-style: normal; }
 .nav .name:hover .scr { transform: rotate(-4deg) scale(1.05); }
+
+/* Selection criteria list on How I work */
+.crit-intro { color: var(--soft); margin-bottom: 18px; }
+.crit li + li { margin-top: 14px; }
+.crit a { white-space: nowrap; margin-left: 4px; }
